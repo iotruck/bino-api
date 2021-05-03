@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: iotruckWins
+      MYSQL_DATABASE: iotruckdb
+      MYSQL_USER: iotruck
+      MYSQL_PASSWORD: iotruckWins
+    ports:
+      - "3306:3306"
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - ./docker/db:/var/lib/mysql
+
+  spring-rest-api:
+    depends_on:
+      - db
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - PROFILE=local
+    links:
+      - db
+    ports:
+      - "8080:8080"
+    container_name: javaSpring
