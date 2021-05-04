@@ -18,7 +18,7 @@ public class Travel {
     private String codigo;
 
     @JoinColumn(name = "fk_location")
-    @OneToOne(cascade=CascadeType.PERSIST)
+    @OneToOne(cascade= CascadeType.ALL)
     private Location location;
 
     @NotBlank
@@ -27,11 +27,11 @@ public class Travel {
     @FutureOrPresent
     private LocalDate dateTravel;
 
-    @JoinColumn(name = "fk_trucker")
+    @JoinColumn(name = "id_trucker")
     @ManyToOne
     private Trucker trucker;
 
-    @JoinColumn(name = "fk_truck")
+    @JoinColumn(name = "id_truck")
     @ManyToOne
     private Truck truck;
 
