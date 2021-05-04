@@ -29,7 +29,7 @@ public class SecurityAnalystController {
         if (id <= 0)
             return ResponseEntity.badRequest().body("O id não pode ser menor ou igual a zero");
 
-        return ResponseEntity.of(services.getById(id));
+        return ResponseEntity.ok(services.getById(id));
     }
 
     @PostMapping("/login")
