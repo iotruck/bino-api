@@ -35,6 +35,18 @@ public class Travel {
     @ManyToOne
     private Truck truck;
 
+    @JoinColumn(name = "id_analyst")
+    @ManyToOne
+    private SecurityAnalyst analyst;
+
+    public SecurityAnalyst getAnalyst() {
+        return analyst;
+    }
+
+    public void setAnalyst(SecurityAnalyst analyst) {
+        this.analyst = analyst;
+    }
+
     private Double estimatedValue;
 
     private TravelStatus status;

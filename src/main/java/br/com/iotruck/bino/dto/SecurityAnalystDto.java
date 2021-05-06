@@ -8,11 +8,13 @@ public class SecurityAnalystDto {
     private int id;
     private String name;
     private String email;
+    private Boolean admin;
 
     public SecurityAnalystDto(SecurityAnalyst analyst) {
         this.id = analyst.getId();
         this.name = analyst.getName();
         this.email = analyst.getEmail();
+        this.admin = analyst.getAdmin();
     }
 
     public int getId() {
@@ -37,5 +39,13 @@ public class SecurityAnalystDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
     }
 }

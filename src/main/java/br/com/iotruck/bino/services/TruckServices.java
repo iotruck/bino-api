@@ -2,6 +2,7 @@ package br.com.iotruck.bino.services;
 
 import br.com.iotruck.bino.entity.Truck;
 import br.com.iotruck.bino.repository.ITruckRepository;
+import br.com.iotruck.bino.services.interfaces.ITruckServices;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class TruckServices implements ITruckServices{
+public class TruckServices implements ITruckServices {
 
     private final ITruckRepository repository;
 

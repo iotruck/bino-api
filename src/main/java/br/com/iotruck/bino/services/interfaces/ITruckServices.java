@@ -1,4 +1,4 @@
-package br.com.iotruck.bino.services;
+package br.com.iotruck.bino.services.interfaces;
 
 import br.com.iotruck.bino.entity.Truck;
 import java.util.List;

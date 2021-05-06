@@ -3,6 +3,7 @@ package br.com.iotruck.bino.services;
 import br.com.iotruck.bino.dto.SecurityAnalystDto;
 import br.com.iotruck.bino.entity.SecurityAnalyst;
 import br.com.iotruck.bino.repository.ISecurityAnalystRepository;
+import br.com.iotruck.bino.services.interfaces.ISecurityAnalystServices;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
