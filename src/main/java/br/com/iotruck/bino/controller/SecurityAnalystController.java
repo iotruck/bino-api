@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/securityanalyst")
 @CrossOrigin(origins = "*")
@@ -29,7 +30,14 @@ public class SecurityAnalystController {
         if (id <= 0)
             return ResponseEntity.badRequest().body("O id não pode ser menor ou igual a zero");
 
-        return ResponseEntity.ok(services.getById(id));
+        Optional<SecurityAnalyst> analyst = services.getById(id);
+
+        if (analyst.isPresent()) {
+            return ResponseEntity.ok(analyst);
+        }
+
+        return ResponseEntity.status(404).build();
+
     }
 
     @PostMapping("/login")

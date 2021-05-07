@@ -12,4 +12,5 @@ public interface ISecurityAnalystRepository extends JpaRepository<SecurityAnalys
     SecurityAnalyst findByEmailAndPassword(String email, String password);
 
     List<SecurityAnalyst> findAllByCompanyId(Integer id);
+
 }

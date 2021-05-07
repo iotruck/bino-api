@@ -55,6 +55,13 @@ public class SecurityAnalystServices implements ISecurityAnalystServices {
     }
 
     public SecurityAnalystDto login(String email, String password) {
-        return new SecurityAnalystDto(repository.findByEmailAndPassword(email, password));
+
+        SecurityAnalyst securityAnalyst = repository.findByEmailAndPassword(email, password);
+
+        if (securityAnalyst != null)
+            return new SecurityAnalystDto(securityAnalyst);
+
+        return null;
+
     }
 }
