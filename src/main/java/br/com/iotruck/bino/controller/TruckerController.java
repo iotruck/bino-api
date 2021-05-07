@@ -29,10 +29,10 @@ public class TruckerController {
         return ResponseEntity.of(services.getById(id));
     }
 
-    @GetMapping
+    @GetMapping("/company/{id}")
     @ApiOperation("Retorna uma lista de caminhoneiro")
-    public ResponseEntity getAll() {
-        List<Trucker> truckerList = services.getAll();
+    public ResponseEntity getAll(@PathVariable Integer id) {
+        List<Trucker> truckerList = services.findAllByCompanyId(id);
         if (truckerList.isEmpty())
             return ResponseEntity.noContent().build();
 

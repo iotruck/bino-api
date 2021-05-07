@@ -35,10 +35,10 @@ public class TravelController {
     @Autowired
     private ITruckRepository truckRepository;
 
-    @GetMapping
+    @GetMapping("/analyst/{id}")
     @ApiOperation("Listagem de viagens")
-    public ResponseEntity getTravels() {
-        List<Travel> travels = respository.findAll();
+    public ResponseEntity getTravels(@PathVariable Integer id) {
+        List<Travel> travels = respository.findAllByAnalystId(id);
 
         if (travels.isEmpty())
             return ResponseEntity.status(204).build();
@@ -46,15 +46,15 @@ public class TravelController {
         return ResponseEntity.status(200).body(travels);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id_analyst}/{id}")
     @ApiOperation("Retorna uma viagem")
-    public ResponseEntity getTravels(@PathVariable int id) {
+    public ResponseEntity getTravels(@PathVariable int id_analyst, @PathVariable int id) {
         if (id <= 0)
             return ResponseEntity.status(400).body("O id não pode ser menor ou igual a zero");
 
-        Optional<Travel> travel = respository.findById(id);
+        Travel travel = respository.findByAnalystIdAndId(id_analyst, id);
 
-        if (travel.isPresent())
+        if (travel != null)
             return ResponseEntity.status(200).body(travel);
 
         return ResponseEntity.status(404).build();

@@ -11,7 +11,7 @@ public interface ITruckServices {
 
     Boolean delete(int id);
 
-    List<Truck> getAll();
-
     Optional<Truck> getById(int id);
+
+    List<Truck> findAllByCompanyId(Integer id);
 }

@@ -18,4 +18,8 @@ public class CompanyServices implements ICompanyServices {
         return true;
     }
 
+    public Company findByCnpj(String cnpj) {
+
+        return repository.findByCnpj(cnpj);
+    }
 }

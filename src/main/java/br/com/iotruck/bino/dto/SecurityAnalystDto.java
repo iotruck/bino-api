@@ -5,7 +5,7 @@ import br.com.iotruck.bino.entity.SecurityAnalyst;
 
 public class SecurityAnalystDto {
 
-    private int id;
+    private Integer id;
     private String name;
     private String email;
     private Boolean admin;
@@ -48,4 +48,5 @@ public class SecurityAnalystDto {
     public void setAdmin(Boolean admin) {
         this.admin = admin;
     }
+
 }

@@ -23,7 +23,7 @@ public class SecurityAnalystController {
 
     final SecurityAnalystServices services;
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @ApiOperation("Retorna um analista buscando por id")
     public ResponseEntity getById(@PathVariable int id) {
         if (id <= 0)
@@ -43,10 +43,10 @@ public class SecurityAnalystController {
         return analyst != null ? ResponseEntity.ok().body(analyst) : ResponseEntity.status(401).body("Usuario Invalido");
     }
 
-    @GetMapping
+    @GetMapping("/company/{id}")
     @ApiOperation("Retorna uma lista de analista")
-    public ResponseEntity getAll() {
-        List<SecurityAnalystDto> analysts = services.getAll();
+    public ResponseEntity getAll(@PathVariable int id) {
+        List<SecurityAnalystDto> analysts = services.getAllByCompanyId(id);
         if (analysts.isEmpty())
             return ResponseEntity.noContent().build();
 

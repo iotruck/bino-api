@@ -42,6 +42,9 @@ public class CompanyController {
             analyst.setPassword(assistant.getPassword());
             analyst.setName(assistant.getName());
             analyst.setAdmin(true);
+
+            analyst.setCompany(companyServices.findByCnpj(company.getCnpj()));
+
             analystServices.create(analyst);
 
             return ResponseEntity.status(201).build();

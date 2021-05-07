@@ -7,13 +7,13 @@ import java.util.Optional;
 
 public interface ISecurityAnalystServices {
 
+    List<SecurityAnalystDto> getAllByCompanyId(Integer id);
+
     Boolean create(SecurityAnalyst analyst);
 
     Boolean update(int id, SecurityAnalyst analyst );
 
     Boolean delete(int id);
-
-    List<SecurityAnalystDto> getAll();
 
     Optional<SecurityAnalyst> getById(int id);
 

@@ -40,9 +40,11 @@ public class TruckerService implements ITruckerService {
         return false;
     }
 
-    @Override
-    public List<Trucker> getAll() {
-        return repository.findAll();
+
+    public List<Trucker> findAllByCompanyId(Integer id) {
+
+        return repository.findAllByCompanyId(id);
+
     }
 
     @Override

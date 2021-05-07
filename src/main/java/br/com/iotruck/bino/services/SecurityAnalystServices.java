@@ -18,6 +18,12 @@ public class SecurityAnalystServices implements ISecurityAnalystServices {
 
     private final ISecurityAnalystRepository repository;
 
+    public List<SecurityAnalystDto> getAllByCompanyId(Integer id) {
+
+        List<SecurityAnalyst> analyst = repository.findAllByCompanyId(id);
+
+        return analyst.stream().map(s -> new SecurityAnalystDto(s)).collect(Collectors.toList());
+    }
 
     public Boolean create(SecurityAnalyst analyst) {
         repository.save(analyst);
@@ -40,13 +46,6 @@ public class SecurityAnalystServices implements ISecurityAnalystServices {
             return true;
         }
         return false;
-    }
-
-    public List<SecurityAnalystDto> getAll() {
-
-        List<SecurityAnalyst> analyst = repository.findAll();
-
-        return analyst.stream().map(s -> new SecurityAnalystDto(s)).collect(Collectors.toList());
     }
 
     public Optional<SecurityAnalyst> getById(int id) {

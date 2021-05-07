@@ -15,7 +15,7 @@ public class SecurityAnalyst {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @NotBlank
     @Size (min = 3)
@@ -30,5 +30,10 @@ public class SecurityAnalyst {
 
     @NotNull
     private Boolean admin = false;
+
+    @NotNull
+    @JoinColumn(name = "id_company")
+    @ManyToOne
+    private Company company;
 
 }

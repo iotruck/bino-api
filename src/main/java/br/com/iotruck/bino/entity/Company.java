@@ -77,4 +77,5 @@ public class Company {
     public void setSubscriptions(Subscriptions subscriptions) {
         this.subscriptions = subscriptions;
     }
+
 }
