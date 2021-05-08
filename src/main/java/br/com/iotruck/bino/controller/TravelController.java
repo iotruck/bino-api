@@ -1,9 +1,8 @@
 package br.com.iotruck.bino.controller;
 
 
+import br.com.iotruck.bino.dto.TravelDto;
 import br.com.iotruck.bino.entity.Travel;
-import br.com.iotruck.bino.entity.Truck;
-import br.com.iotruck.bino.entity.Trucker;
 import br.com.iotruck.bino.repository.ITravelRespository;
 import br.com.iotruck.bino.repository.ITruckRepository;
 import br.com.iotruck.bino.repository.ITruckerRepository;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 
 @RequestMapping("/travel")
@@ -38,7 +36,7 @@ public class TravelController {
     @GetMapping("/analyst/{id}")
     @ApiOperation("Listagem de viagens")
     public ResponseEntity getTravels(@PathVariable Integer id) {
-        List<Travel> travels = respository.findAllByAnalystId(id);
+        List<TravelDto> travels = respository.findAllByAnalystId(id);
 
         if (travels.isEmpty())
             return ResponseEntity.status(204).build();
