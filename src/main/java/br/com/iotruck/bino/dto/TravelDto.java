@@ -9,7 +9,8 @@ public class TravelDto {
 
     private Integer id;
     private String codigo;
-    private Location location;
+    private Location destiny;
+    private Location currentTruckPosition;
     private String description;
     private LocalDate dateTravel;
     private TruckerDto trucker;
@@ -19,7 +20,8 @@ public class TravelDto {
     public TravelDto(Travel travel) {
         this.id = travel.getId();
         this.codigo = travel.getCodigo();
-        this.location = travel.getLocation();
+        this.destiny = travel.getDestiny();
+        this.currentTruckPosition = travel.getCurrentTruckPosition();
         this.description = travel.getDescription();
         this.dateTravel = travel.getDateTravel();
         this.trucker = new TruckerDto(travel.getTrucker());
@@ -43,12 +45,20 @@ public class TravelDto {
         this.codigo = codigo;
     }
 
-    public Location getLocation() {
-        return location;
+    public Location getDestiny() {
+        return destiny;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setDestiny(Location destiny) {
+        this.destiny = destiny;
+    }
+
+    public Location getCurrentTruckPosition() {
+        return currentTruckPosition;
+    }
+
+    public void setCurrentTruckPosition(Location currentTruckPosition) {
+        this.currentTruckPosition = currentTruckPosition;
     }
 
     public String getDescription() {
