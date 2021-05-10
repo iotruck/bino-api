@@ -1,15 +1,19 @@
 package br.com.iotruck.bino.services;
 
+import br.com.iotruck.bino.dto.TruckDto;
 import br.com.iotruck.bino.entity.Truck;
 import br.com.iotruck.bino.repository.ITruckRepository;
+import br.com.iotruck.bino.services.interfaces.ITruckServices;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class TruckServices implements ITruckServices{
+public class TruckServices implements ITruckServices {
 
     private final ITruckRepository repository;
 
@@ -21,7 +25,7 @@ public class TruckServices implements ITruckServices{
 
     @Override
     public Boolean update(int id, Truck truck) {
-        if(repository.existsById(id)){
+        if (repository.existsById(id)) {
             truck.setId(id);
             repository.save(truck);
 
@@ -32,7 +36,7 @@ public class TruckServices implements ITruckServices{
 
     @Override
     public Boolean delete(int id) {
-        if(repository.existsById(id)){
+        if (repository.existsById(id)) {
             repository.deleteById(id);
             return true;
         }
@@ -40,8 +44,9 @@ public class TruckServices implements ITruckServices{
     }
 
     @Override
-    public List<Truck> getAll() {
-        return repository.findAll();
+    public List<TruckDto> findAllByCompanyId(Integer id) {
+        List<Truck> trucks = repository.findAllByCompanyId(id);
+        return trucks.stream().map(t -> new TruckDto(t)).collect(Collectors.toList());
     }
 
     @Override

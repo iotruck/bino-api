@@ -1,5 +1,6 @@
 package br.com.iotruck.bino.controller;
 
+import br.com.iotruck.bino.dto.TruckDto;
 import br.com.iotruck.bino.entity.Truck;
 import br.com.iotruck.bino.services.TruckServices;
 import io.swagger.annotations.Api;
@@ -29,10 +30,10 @@ public class TruckController {
         return ResponseEntity.of(services.getById(id));
     }
 
-    @GetMapping
+    @GetMapping("/company/{id}")
     @ApiOperation("Retorna uma lista de caminhões")
-    public ResponseEntity getAll() {
-        List<Truck> truckList = services.getAll();
+    public ResponseEntity getAll(@PathVariable Integer id) {
+        List<TruckDto> truckList = services.findAllByCompanyId(id);
         if (truckList.isEmpty())
             return ResponseEntity.noContent().build();
 

@@ -17,9 +17,13 @@ public class Travel {
     @Size(min = 1, max = 20)
     private String codigo;
 
-    @JoinColumn(name = "fk_location")
+    @JoinColumn(name = "fk_destiny")
     @OneToOne(cascade= CascadeType.ALL)
-    private Location location;
+    private Location destiny;
+
+    @JoinColumn(name = "fk_current_truck_position")
+    @OneToOne(cascade= CascadeType.ALL)
+    private Location currentTruckPosition;
 
     @NotBlank
     private String description;
@@ -34,6 +38,18 @@ public class Travel {
     @JoinColumn(name = "id_truck")
     @ManyToOne
     private Truck truck;
+
+    @JoinColumn(name = "id_analyst")
+    @ManyToOne
+    private SecurityAnalyst analyst;
+
+    public SecurityAnalyst getAnalyst() {
+        return analyst;
+    }
+
+    public void setAnalyst(SecurityAnalyst analyst) {
+        this.analyst = analyst;
+    }
 
     private Double estimatedValue;
 
@@ -55,12 +71,20 @@ public class Travel {
         this.codigo = codigo;
     }
 
-    public Location getLocation() {
-        return location;
+    public Location getDestiny() {
+        return destiny;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setDestiny(Location destiny) {
+        this.destiny = destiny;
+    }
+
+    public Location getCurrentTruckPosition() {
+        return currentTruckPosition;
+    }
+
+    public void setCurrentTruckPosition(Location currentTruckPosition) {
+        this.currentTruckPosition = currentTruckPosition;
     }
 
     public String getDescription() {
