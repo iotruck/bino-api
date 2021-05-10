@@ -1,5 +1,6 @@
 package br.com.iotruck.bino.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -33,6 +34,7 @@ public class Trucker {
     private String phoneNumber;
     @NotBlank
     private String certification;
+
     @NotNull
     @JoinColumn(name = "id_company")
     @ManyToOne

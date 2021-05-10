@@ -1,5 +1,6 @@
 package br.com.iotruck.bino.services;
 
+import br.com.iotruck.bino.dto.TruckDto;
 import br.com.iotruck.bino.entity.Truck;
 import br.com.iotruck.bino.repository.ITruckRepository;
 import br.com.iotruck.bino.services.interfaces.ITruckServices;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -42,8 +44,9 @@ public class TruckServices implements ITruckServices {
     }
 
     @Override
-    public List<Truck> findAllByCompanyId(Integer id) {
-        return repository.findAllByCompanyId(id);
+    public List<TruckDto> findAllByCompanyId(Integer id) {
+        List<Truck> trucks = repository.findAllByCompanyId(id);
+        return trucks.stream().map(t -> new TruckDto(t)).collect(Collectors.toList());
     }
 
     @Override
