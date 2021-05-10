@@ -1,8 +1,8 @@
 package br.com.iotruck.bino.controller;
 
+
+import br.com.iotruck.bino.dto.TravelDto;
 import br.com.iotruck.bino.entity.Travel;
-import br.com.iotruck.bino.entity.Truck;
-import br.com.iotruck.bino.entity.Trucker;
 import br.com.iotruck.bino.repository.ITravelRespository;
 import br.com.iotruck.bino.repository.ITruckRepository;
 import br.com.iotruck.bino.repository.ITruckerRepository;
@@ -14,8 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-import java.util.Optional;
+import java.util.List;
 
 
 @RequestMapping("/travel")
@@ -34,22 +33,71 @@ public class TravelController {
     @Autowired
     private ITruckRepository truckRepository;
 
-    @PostMapping("/{id_trucker}/{id_truck}")
+    @GetMapping("/analyst/{id}")
+    @ApiOperation("Listagem de viagens")
+    public ResponseEntity getTravels(@PathVariable Integer id) {
+        List<TravelDto> travels = respository.findAllByAnalystId(id);
+
+        if (travels.isEmpty())
+            return ResponseEntity.status(204).build();
+
+        return ResponseEntity.status(200).body(travels);
+    }
+
+    @GetMapping("/{id_analyst}/{id}")
+    @ApiOperation("Retorna uma viagem")
+    public ResponseEntity getTravels(@PathVariable int id_analyst, @PathVariable int id) {
+        if (id <= 0)
+            return ResponseEntity.status(400).body("O id não pode ser menor ou igual a zero");
+
+        Travel travel = respository.findByAnalystIdAndId(id_analyst, id);
+
+        if (travel != null)
+            return ResponseEntity.status(200).body(travel);
+
+        return ResponseEntity.status(404).build();
+
+    }
+
+    @PostMapping
     @ApiOperation("Cria uma viagem")
-    public ResponseEntity postTravel(@PathVariable int id_trucker,
-                                     @PathVariable int id_truck,
-                                     @Valid @RequestBody Travel travel) {
+    public ResponseEntity postTravel(@Valid @RequestBody Travel travel) {
+        Integer idTruck = travel.getTruck().getId();
 
-        Optional<Trucker> trucker = truckerRepository.findById(id_trucker);
-        Optional<Truck> truck = truckRepository.findById(id_truck);
+        Integer idTrucker = travel.getTrucker().getId();
 
-        if(trucker.isPresent() && truck.isPresent()) {
-            travel.setTrucker(trucker.get());
-            travel.setTruck(truck.get());
+        if (truckerRepository.existsById(idTrucker) && truckRepository.existsById(idTruck)) {
+
             respository.save(travel);
+
             return ResponseEntity.status(201).build();
+
         } else {
+
             return ResponseEntity.status(400).build();
+
+        }
+    }
+
+    @PutMapping("/{id}")
+    @ApiOperation("Atualiza uma viagem")
+    public ResponseEntity putTravel(@PathVariable int id, @RequestBody @Valid Travel travel) {
+
+        if (id <= 0)
+            return ResponseEntity.status(400).body("O id não pode ser menor ou igual a zero");
+
+        if (respository.existsById(id)) {
+
+            travel.setId(id);
+
+            respository.save(travel);
+
+            return ResponseEntity.status(200).build();
+
+        } else {
+
+            return ResponseEntity.status(400).build();
+
         }
     }
 

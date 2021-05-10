@@ -3,6 +3,7 @@ package br.com.iotruck.bino.entity;
 public class SecurityAnalystLogin {
 
     private String email;
+
     private String password;
 
     public String getEmail() {

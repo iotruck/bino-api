@@ -1,12 +1,10 @@
 package br.com.iotruck.bino.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
@@ -36,4 +34,9 @@ public class Trucker {
     private String phoneNumber;
     @NotBlank
     private String certification;
+
+    @NotNull
+    @JoinColumn(name = "id_company")
+    @ManyToOne
+    private Company company;
 }

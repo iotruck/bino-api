@@ -3,6 +3,7 @@ package br.com.iotruck.bino.services;
 import br.com.iotruck.bino.dto.SecurityAnalystDto;
 import br.com.iotruck.bino.entity.SecurityAnalyst;
 import br.com.iotruck.bino.repository.ISecurityAnalystRepository;
+import br.com.iotruck.bino.services.interfaces.ISecurityAnalystServices;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,12 @@ public class SecurityAnalystServices implements ISecurityAnalystServices {
 
     private final ISecurityAnalystRepository repository;
 
+    public List<SecurityAnalystDto> getAllByCompanyId(Integer id) {
+
+        List<SecurityAnalyst> analyst = repository.findAllByCompanyId(id);
+
+        return analyst.stream().map(s -> new SecurityAnalystDto(s)).collect(Collectors.toList());
+    }
 
     public Boolean create(SecurityAnalyst analyst) {
         repository.save(analyst);
@@ -41,13 +48,6 @@ public class SecurityAnalystServices implements ISecurityAnalystServices {
         return false;
     }
 
-    public List<SecurityAnalystDto> getAll() {
-
-        List<SecurityAnalyst> analyst = repository.findAll();
-
-        return analyst.stream().map(s -> new SecurityAnalystDto(s)).collect(Collectors.toList());
-    }
-
     public Optional<SecurityAnalyst> getById(int id) {
 
         return repository.findById(id);
@@ -55,6 +55,11 @@ public class SecurityAnalystServices implements ISecurityAnalystServices {
     }
 
     public SecurityAnalystDto login(String email, String password) {
-        return new SecurityAnalystDto(repository.findByEmailAndPassword(email, password));
+        SecurityAnalyst securityAnalyst = repository.findByEmailAndPassword(email, password);
+        if (securityAnalyst != null)
+            return new SecurityAnalystDto(securityAnalyst);
+
+        return null;
     }
+
 }

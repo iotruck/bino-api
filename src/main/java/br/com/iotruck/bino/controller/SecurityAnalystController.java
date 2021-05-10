@@ -9,9 +9,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/securityanalyst")
 @CrossOrigin(origins = "*")
@@ -23,13 +23,20 @@ public class SecurityAnalystController {
 
     final SecurityAnalystServices services;
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @ApiOperation("Retorna um analista buscando por id")
     public ResponseEntity getById(@PathVariable int id) {
         if (id <= 0)
             return ResponseEntity.badRequest().body("O id não pode ser menor ou igual a zero");
 
-        return ResponseEntity.of(services.getById(id));
+        Optional<SecurityAnalyst> analyst = services.getById(id);
+
+        if (analyst.isPresent()) {
+            return ResponseEntity.ok(analyst);
+        }
+
+        return ResponseEntity.status(404).build();
+
     }
 
     @PostMapping("/login")
@@ -43,10 +50,10 @@ public class SecurityAnalystController {
         return analyst != null ? ResponseEntity.ok().body(analyst) : ResponseEntity.status(401).body("Usuario Invalido");
     }
 
-    @GetMapping
+    @GetMapping("/company/{id}")
     @ApiOperation("Retorna uma lista de analista")
-    public ResponseEntity getAll() {
-        List<SecurityAnalystDto> analysts = services.getAll();
+    public ResponseEntity getAll(@PathVariable int id) {
+        List<SecurityAnalystDto> analysts = services.getAllByCompanyId(id);
         if (analysts.isEmpty())
             return ResponseEntity.noContent().build();
 
