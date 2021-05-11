@@ -44,6 +44,18 @@ public class TravelController {
         return ResponseEntity.status(200).body(travels);
     }
 
+    @GetMapping("/search")
+    @ApiOperation("Listagem de viagens pelo codigo")
+    public ResponseEntity getTravelsByCode(@RequestParam String codigo) {
+
+        List<TravelDto> travels = respository.findByCodigoLike(codigo);
+
+        if (travels.isEmpty())
+            return ResponseEntity.status(204).build();
+
+        return ResponseEntity.status(200).body(travels);
+    }
+
     @GetMapping("/{id_analyst}/{id}")
     @ApiOperation("Retorna uma viagem")
     public ResponseEntity getTravels(@PathVariable int id_analyst, @PathVariable int id) {
