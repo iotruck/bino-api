@@ -2,6 +2,8 @@ package br.com.iotruck.bino.dto;
 
 import br.com.iotruck.bino.entity.Trucker;
 
+import java.time.LocalDate;
+
 
 public class TruckerDto {
 
@@ -9,12 +11,16 @@ public class TruckerDto {
     private String name;
     private String cpf;
     private String cnh;
+    private LocalDate birthDate;
+    private String phoneNumber;
 
     public TruckerDto(Trucker trucker) {
         this.id = trucker.getId();
         this.name = trucker.getName();
         this.cpf = trucker.getCpf();
         this.cnh = trucker.getCnh();
+        this.birthDate = trucker.getBirthDate();
+        this.phoneNumber = trucker.getPhoneNumber();
     }
 
     public int getId() {
@@ -49,5 +55,19 @@ public class TruckerDto {
         this.cnh = cnh;
     }
 
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
 
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }
