@@ -1,7 +1,6 @@
 package br.com.iotruck.bino.controller;
 
 
-import br.com.iotruck.bino.dto.SecurityAnalystDto;
 import br.com.iotruck.bino.dto.TravelDto;
 import br.com.iotruck.bino.entity.Travel;
 import br.com.iotruck.bino.repository.ITravelRespository;
