@@ -14,6 +14,6 @@ public interface ITravelRespository extends JpaRepository<Travel, Integer> {
 
     Travel findByAnalystIdAndId(Integer analystId, Integer id);
 
-    @Query("from Travel  where codigo like ?1")
+    @Query("select t from Travel t where t.codigo like %?1%")
     List<TravelDto> findByCodigoLike(String codigo);
 }

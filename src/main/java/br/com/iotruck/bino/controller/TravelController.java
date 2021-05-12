@@ -1,6 +1,7 @@
 package br.com.iotruck.bino.controller;
 
 
+import br.com.iotruck.bino.dto.SecurityAnalystDto;
 import br.com.iotruck.bino.dto.TravelDto;
 import br.com.iotruck.bino.entity.Travel;
 import br.com.iotruck.bino.repository.ITravelRespository;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequestMapping("/travel")
@@ -33,7 +35,7 @@ public class TravelController {
     @Autowired
     private ITruckRepository truckRepository;
 
-    @GetMapping("/analyst/{id}")
+        @GetMapping("/analyst/{id}")
     @ApiOperation("Listagem de viagens")
     public ResponseEntity getTravels(@PathVariable Integer id) {
         List<TravelDto> travels = respository.findAllByAnalystId(id);
