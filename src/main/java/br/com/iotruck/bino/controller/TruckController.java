@@ -2,10 +2,13 @@ package br.com.iotruck.bino.controller;
 
 import br.com.iotruck.bino.dto.TruckDto;
 import br.com.iotruck.bino.entity.Truck;
+import br.com.iotruck.bino.repository.ITruckRepository;
+import br.com.iotruck.bino.repository.ITruckerRepository;
 import br.com.iotruck.bino.services.TruckServices;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +17,16 @@ import java.util.List;
 
 @RequestMapping("/truck")
 @CrossOrigin(origins = "*")
-@AllArgsConstructor
+//@AllArgsConstructor
 @RestController
 @Api("Bino API REST Truck")
 public class TruckController {
 
-    final TruckServices services;
+    @Autowired
+    private ITruckRepository truckRepository;
+
+    @Autowired
+    TruckServices services;
 
     @GetMapping("/{id}")
     @ApiOperation("Retorna um caminhão buscando por id")
@@ -64,5 +71,14 @@ public class TruckController {
             return ResponseEntity.ok().build();
 
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/score/{id}")
+    public ResponseEntity getCount(@PathVariable Integer id) {
+        if (truckRepository.existsById(id)) {
+            return ResponseEntity.ok().body(truckRepository.countByCompanyId(id));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
