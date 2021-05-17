@@ -2,6 +2,7 @@ package br.com.iotruck.bino.entity;
 
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.http.ResponseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -37,4 +38,17 @@ public class Trucker {
     @JoinColumn(name = "id_company")
     @ManyToOne
     private Company company;
+
+    public Trucker setValue(Trucker trucker) {
+        Trucker newTrucker = new Trucker();
+        newTrucker.setId(trucker.getId());
+        newTrucker.setName(trucker.getName());
+        newTrucker.setBirthDate(trucker.getBirthDate());
+        newTrucker.setCpf(trucker.getCpf());
+        newTrucker.setCnh(trucker.getCnh());
+        newTrucker.setPhoneNumber(trucker.getPhoneNumber());
+        newTrucker.setCertification(trucker.getCertification());
+        newTrucker.setCompany(trucker.getCompany());
+        return newTrucker;
+    }
 }
