@@ -2,24 +2,34 @@ package br.com.iotruck.bino.controller;
 
 import br.com.iotruck.bino.dto.TruckerDto;
 import br.com.iotruck.bino.entity.Trucker;
+import br.com.iotruck.bino.extensions.PilhaObj;
+import br.com.iotruck.bino.repository.ITruckerRepository;
 import br.com.iotruck.bino.services.TruckerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/trucker")
 @CrossOrigin(origins = "*")
-@AllArgsConstructor
+//@AllArgsConstructor
 @RestController
 @Api("Bino API REST Truck")
 public class TruckerController {
 
-    final TruckerService services;
+    @Autowired
+    private ITruckerRepository truckerRepository;
+
+    PilhaObj<Trucker> pilhaTrucker = new PilhaObj<>(999);
+
+    @Autowired
+    TruckerService services;
 
     @GetMapping("/{id}")
     @ApiOperation("Retorna um caminhoneiro buscando por id")
@@ -44,6 +54,7 @@ public class TruckerController {
     @ApiOperation("Cria um caminhoneiro")
     public ResponseEntity postTrucker(@RequestBody @Valid Trucker trucker) {
         services.create(trucker);
+        pilhaTrucker.push(trucker);
         return ResponseEntity.status(201).build();
     }
 
@@ -51,6 +62,11 @@ public class TruckerController {
     @ApiOperation("Atualiza um caminhoneiro")
     public ResponseEntity putTrucker(@PathVariable int id,
                                      @RequestBody @Valid Trucker trucker) {
+        Optional<Trucker> truckerPilha = truckerRepository.findById(id);
+
+        if (truckerPilha.isPresent()) {
+            pilhaTrucker.push(truckerPilha.get().setValue(truckerPilha.get()));
+        }
 
         if (services.update(id, trucker))
             return ResponseEntity.ok().build();
@@ -66,4 +82,14 @@ public class TruckerController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/undo-update")
+    public ResponseEntity getUndoUpdate() {
+        if (!pilhaTrucker.isEmpty()) {
+            Trucker trucker = pilhaTrucker.pop();
+            return putTrucker(trucker.getId(), trucker);
+        }
+        return ResponseEntity.status(404).build();
+    }
+
 }
