@@ -18,6 +18,7 @@ public class TravelDto {
     private SecurityAnalystDto analyst;
 
     public TravelDto(Travel travel) {
+
         this.id = travel.getId();
         this.codigo = travel.getCodigo();
         this.destiny = travel.getDestiny();

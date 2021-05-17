@@ -1,5 +1,6 @@
 package br.com.iotruck.bino.services.interfaces;
 
+import br.com.iotruck.bino.dto.TruckerDto;
 import br.com.iotruck.bino.entity.Truck;
 import br.com.iotruck.bino.entity.Trucker;
 import java.util.List;
@@ -14,5 +15,5 @@ public interface ITruckerService {
 
     Optional<Trucker> getById(int id);
 
-    List<Trucker> findAllByCompanyId(Integer id);
+    List<TruckerDto> findAllByCompanyId(Integer id);
 }

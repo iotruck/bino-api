@@ -1,5 +1,6 @@
 package br.com.iotruck.bino.controller;
 
+import br.com.iotruck.bino.dto.TruckerDto;
 import br.com.iotruck.bino.entity.Trucker;
 import br.com.iotruck.bino.extensions.PilhaObj;
 import br.com.iotruck.bino.repository.ITruckerRepository;
@@ -42,7 +43,7 @@ public class TruckerController {
     @GetMapping("/company/{id}")
     @ApiOperation("Retorna uma lista de caminhoneiro")
     public ResponseEntity getAll(@PathVariable Integer id) {
-        List<Trucker> truckerList = services.findAllByCompanyId(id);
+        List<TruckerDto> truckerList = services.findAllByCompanyId(id);
         if (truckerList.isEmpty())
             return ResponseEntity.noContent().build();
 

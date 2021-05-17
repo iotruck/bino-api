@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequestMapping("/travel")
@@ -33,10 +34,22 @@ public class TravelController {
     @Autowired
     private ITruckRepository truckRepository;
 
-    @GetMapping("/analyst/{id}")
+        @GetMapping("/analyst/{id}")
     @ApiOperation("Listagem de viagens")
     public ResponseEntity getTravels(@PathVariable Integer id) {
         List<TravelDto> travels = respository.findAllByAnalystId(id);
+
+        if (travels.isEmpty())
+            return ResponseEntity.status(204).build();
+
+        return ResponseEntity.status(200).body(travels);
+    }
+
+    @GetMapping("/search")
+    @ApiOperation("Listagem de viagens pelo codigo")
+    public ResponseEntity getTravelsByCode(@RequestParam String codigo) {
+
+        List<TravelDto> travels = respository.findByCodigoLike(codigo);
 
         if (travels.isEmpty())
             return ResponseEntity.status(204).build();
