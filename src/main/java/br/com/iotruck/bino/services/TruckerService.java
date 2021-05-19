@@ -8,6 +8,7 @@ import br.com.iotruck.bino.repository.ITruckerRepository;
 import br.com.iotruck.bino.services.interfaces.ITruckerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class TruckerService implements ITruckerService {
 
     @Override
     public Boolean update(int id, Trucker trucker) {
-        if (repository.existsById(id)){
+        if (repository.existsById(id)) {
             trucker.setId(id);
             repository.save(trucker);
 
@@ -37,13 +38,12 @@ public class TruckerService implements ITruckerService {
 
     @Override
     public Boolean delete(int id) {
-        if (repository.existsById(id)){
+        if (repository.existsById(id)) {
             repository.deleteById(id);
             return true;
         }
         return false;
     }
-
 
     public List<TruckerDto> findAllByCompanyId(Integer id) {
 
@@ -51,6 +51,12 @@ public class TruckerService implements ITruckerService {
 
 
         return truckers.stream().map(t -> new TruckerDto(t)).collect(Collectors.toList());
+
+    }
+
+    public Integer countByCompanyId(Integer id) {
+
+        return repository.countByCompanyId(id);
 
     }
 
