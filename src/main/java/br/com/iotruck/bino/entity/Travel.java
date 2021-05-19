@@ -43,6 +43,10 @@ public class Travel {
     @ManyToOne
     private SecurityAnalyst analyst;
 
+    private Double estimatedValue;
+
+    private TravelStatus status;
+
     public SecurityAnalyst getAnalyst() {
         return analyst;
     }
@@ -50,10 +54,6 @@ public class Travel {
     public void setAnalyst(SecurityAnalyst analyst) {
         this.analyst = analyst;
     }
-
-    private Double estimatedValue;
-
-    private TravelStatus status;
 
     public Integer getId() {
         return id;
