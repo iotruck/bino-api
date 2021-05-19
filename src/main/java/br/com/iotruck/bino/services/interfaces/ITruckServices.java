@@ -15,4 +15,6 @@ public interface ITruckServices {
     Optional<Truck> getById(int id);
 
     List<TruckDto> findAllByCompanyId(Integer id);
+
+    Integer countByCompanyId(Integer id);
 }

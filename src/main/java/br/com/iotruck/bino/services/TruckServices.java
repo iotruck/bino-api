@@ -55,4 +55,10 @@ public class TruckServices implements ITruckServices {
         return repository.findById(id);
 
     }
+
+    public Integer countByCompanyId(Integer id) {
+
+        return repository.countByCompanyId(id);
+
+    }
 }

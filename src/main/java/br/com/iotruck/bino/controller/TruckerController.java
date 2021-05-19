@@ -76,11 +76,20 @@ public class TruckerController {
 
     @DeleteMapping("/{id}")
     @ApiOperation("Remove um caminhoneiro")
-    public ResponseEntity deleteTrucker(@PathVariable int id) {
+    public ResponseEntity deleteTrucker(@PathVariable Integer id) {
         if (services.delete(id))
             return ResponseEntity.ok().build();
 
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/score/{id}")
+    public ResponseEntity getCount(@PathVariable Integer id) {
+        if (truckerRepository.existsById(id)) {
+            return ResponseEntity.ok().body(truckerRepository.countByCompanyId(id));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/undo-update")
