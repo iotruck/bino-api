@@ -1,12 +1,7 @@
 package br.com.iotruck.bino.controller;
 
-import br.com.iotruck.bino.dto.TravelDto;
 import br.com.iotruck.bino.entity.Location;
-import br.com.iotruck.bino.entity.Travel;
 import br.com.iotruck.bino.repository.ILocationRepository;
-import br.com.iotruck.bino.repository.ITravelRespository;
-import br.com.iotruck.bino.repository.ITruckRepository;
-import br.com.iotruck.bino.repository.ITruckerRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;

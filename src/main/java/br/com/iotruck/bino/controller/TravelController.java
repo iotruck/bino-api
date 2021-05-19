@@ -3,7 +3,8 @@ package br.com.iotruck.bino.controller;
 
 import br.com.iotruck.bino.dto.TravelDto;
 import br.com.iotruck.bino.entity.Travel;
-import br.com.iotruck.bino.repository.ITravelRespository;
+import br.com.iotruck.bino.extensions.FilaObj;
+import br.com.iotruck.bino.repository.ITravelRepository;
 import br.com.iotruck.bino.repository.ITruckRepository;
 import br.com.iotruck.bino.repository.ITruckerRepository;
 import io.swagger.annotations.Api;
@@ -14,19 +15,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 
 @RequestMapping("/travel")
 @CrossOrigin(origins = "*")
-@AllArgsConstructor
 @RestController
 @Api("Bino API REST Travel")
 public class TravelController {
 
     @Autowired
-    private ITravelRespository respository;
+    private ITravelRepository repository;
 
     @Autowired
     private ITruckerRepository truckerRepository;
@@ -34,10 +35,14 @@ public class TravelController {
     @Autowired
     private ITruckRepository truckRepository;
 
-        @GetMapping("/analyst/{id}")
+    FilaObj<Travel> filaObj = new FilaObj<>(10);
+
+    List<Travel> travelList = new ArrayList<>();
+
+    @GetMapping("/analyst/{id}")
     @ApiOperation("Listagem de viagens")
     public ResponseEntity getTravels(@PathVariable Integer id) {
-        List<TravelDto> travels = respository.findAllByAnalystId(id);
+        List<TravelDto> travels = repository.findAllByAnalystId(id);
 
         if (travels.isEmpty())
             return ResponseEntity.status(204).build();
@@ -49,7 +54,7 @@ public class TravelController {
     @ApiOperation("Listagem de viagens pelo codigo")
     public ResponseEntity getTravelsByCode(@RequestParam String codigo) {
 
-        List<TravelDto> travels = respository.findByCodigoLike(codigo);
+        List<TravelDto> travels = repository.findByCodigoLike(codigo);
 
         if (travels.isEmpty())
             return ResponseEntity.status(204).build();
@@ -63,7 +68,7 @@ public class TravelController {
         if (id <= 0)
             return ResponseEntity.status(400).body("O id não pode ser menor ou igual a zero");
 
-        Travel travel = respository.findByAnalystIdAndId(id_analyst, id);
+        Travel travel = repository.findByAnalystIdAndId(id_analyst, id);
 
         if (travel != null)
             return ResponseEntity.status(200).body(travel);
@@ -81,7 +86,7 @@ public class TravelController {
 
         if (truckerRepository.existsById(idTrucker) && truckRepository.existsById(idTruck)) {
 
-            respository.save(travel);
+            repository.save(travel);
 
             return ResponseEntity.status(201).build();
 
@@ -99,11 +104,11 @@ public class TravelController {
         if (id <= 0)
             return ResponseEntity.status(400).body("O id não pode ser menor ou igual a zero");
 
-        if (respository.existsById(id)) {
+        if (repository.existsById(id)) {
 
             travel.setId(id);
 
-            respository.save(travel);
+            repository.save(travel);
 
             return ResponseEntity.status(200).build();
 
@@ -117,11 +122,45 @@ public class TravelController {
     @DeleteMapping("/{id}")
     @ApiOperation("Remove uma viagem")
     public ResponseEntity deleteTravel(@PathVariable int id) {
-        if (respository.existsById(id)) {
-            respository.deleteById(id);
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
             return ResponseEntity.status(200).build();
         } else {
             return ResponseEntity.status(400).build();
         }
+    }
+
+    @GetMapping("get-assync/{id}")
+    @ApiOperation("Armazena a requisição em uma fila")
+    public ResponseEntity getAssyncTravel(@PathVariable int id){
+        Optional<Travel> travel = repository.findById(id);
+            if (travel.isPresent()) {
+                filaObj.insert(travel.get());
+                return ResponseEntity.ok().body(travel.get().getId());
+            }
+            return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("get-list")
+    @ApiOperation("Verifica se existe algo na fila e adiciona para um List")
+    public ResponseEntity getListTravel(){
+            if (!filaObj.isEmpty()){
+                travelList.add(filaObj.poll());
+                return ResponseEntity.ok().build();
+            }
+            return ResponseEntity.status(404).body("Não há nada a tratar");
+    }
+
+    @GetMapping("treatment-assync/{id}")
+    @ApiOperation("Consulta se já terminou o tratamento de alguma requisação assíncrona")
+    public ResponseEntity getFinishAssinc(@PathVariable int id){
+            for (int i = 0; i < travelList.size(); i++){
+                Travel travel = travelList.get(i);
+                if (travel.getId() == id){
+                    travelList.remove(i);
+                    return ResponseEntity.ok().body(travel);
+                }
+            }
+            return ResponseEntity.status(404).body("Requisição não processada");
     }
 }
