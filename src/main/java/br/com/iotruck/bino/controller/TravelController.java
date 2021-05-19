@@ -130,7 +130,7 @@ public class TravelController {
         }
     }
 
-    @GetMapping("getAssync/{id}")
+    @GetMapping("get-assync/{id}")
     @ApiOperation("Armazena a requisição em uma fila")
     public ResponseEntity getAssyncTravel(@PathVariable int id){
         Optional<Travel> travel = repository.findById(id);
@@ -141,7 +141,7 @@ public class TravelController {
             return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("getList")
+    @GetMapping("get-list")
     @ApiOperation("Verifica se existe algo na fila e adiciona para um List")
     public ResponseEntity getListTravel(){
             if (!filaObj.isEmpty()){
@@ -151,7 +151,7 @@ public class TravelController {
             return ResponseEntity.status(404).body("Não há nada a tratar");
     }
 
-    @GetMapping("tratamentoAssync/{id}")
+    @GetMapping("treatment-assync/{id}")
     @ApiOperation("Consulta se já terminou o tratamento de alguma requisação assíncrona")
     public ResponseEntity getFinishAssinc(@PathVariable int id){
             for (int i = 0; i < travelList.size(); i++){
