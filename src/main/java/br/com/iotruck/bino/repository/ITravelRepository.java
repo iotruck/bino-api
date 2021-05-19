@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ITravelRespository extends JpaRepository<Travel, Integer> {
+public interface ITravelRepository extends JpaRepository<Travel, Integer> {
 
     @Query("select t from Travel t where t.id = ?1")
     List<TravelDto> findAllByAnalystId(Integer id);
@@ -16,4 +16,5 @@ public interface ITravelRespository extends JpaRepository<Travel, Integer> {
 
     @Query("select t from Travel t where t.codigo like %?1%")
     List<TravelDto> findByCodigoLike(String codigo);
+
 }
