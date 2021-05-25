@@ -5,6 +5,7 @@ import br.com.iotruck.bino.entity.Trucker;
 import br.com.iotruck.bino.extensions.PilhaObj;
 import br.com.iotruck.bino.extensions.ReadFile;
 import br.com.iotruck.bino.repository.ITruckerRepository;
+import br.com.iotruck.bino.services.TruckServices;
 import br.com.iotruck.bino.services.TruckerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,6 +37,9 @@ public class TruckerController {
 
     @Autowired
     TruckerService services;
+
+    @Autowired
+    TruckServices truckServices;
 
     @GetMapping("/{id}")
     @ApiOperation("Retorna um caminhoneiro buscando por id")
@@ -110,7 +114,7 @@ public class TruckerController {
     @PostMapping("/upload")
     public ResponseEntity enviar(@RequestParam MultipartFile arquivo) throws IOException {
 
-        ReadFile readFile = new ReadFile();
+        ReadFile readFile = new ReadFile(services,truckServices);
 
         readFile.reader(arquivo);
 

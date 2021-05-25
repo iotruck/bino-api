@@ -7,21 +7,31 @@ import br.com.iotruck.bino.entity.enuns.FuelType;
 import br.com.iotruck.bino.entity.enuns.TruckType;
 import br.com.iotruck.bino.repository.ITruckRepository;
 import br.com.iotruck.bino.repository.ITruckerRepository;
+import br.com.iotruck.bino.services.TruckServices;
+import br.com.iotruck.bino.services.TruckerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.*;
 import java.time.LocalDate;
+import java.util.Locale;
+
 
 public class ReadFile {
 
-    @Autowired
-    ITruckerRepository truckerRepository;
 
-    @Autowired
-    ITruckRepository truckRepository;
+
+    TruckerService truckerServices;
+
+    TruckServices truckServices;
+
+    public ReadFile(TruckerService truckerServices, TruckServices truckServices) {
+        this.truckerServices = truckerServices;
+        this.truckServices = truckServices;
+    }
 
     public static File convert(MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
@@ -64,64 +74,77 @@ public class ReadFile {
 
             while (register != null) {
                 typeRegister = register.substring(0, 2);
-                if (typeRegister.equals("00")) {
+                switch (typeRegister) {
+                    case "00":
+                        System.out.println("\nHeader");
 
-                } else if (typeRegister.equals("01")) {
-                    System.out.println("\nTrailer");
+                        break;
+                    case "01":
+                        System.out.println("\nTrailer");
 
-                } else if (typeRegister.equals("02")) {
+                        break;
+                    case "02": {
 
-                    Truck truck = new Truck();
-                    Company company = new Company();
+                        Truck truck = new Truck();
+                        Company company = new Company();
 
-                    id = Integer.parseInt(register.substring(2, 22));
-                    truck.setId(id);
-                    nameTruck = register.substring(22, 32).trim();
-                    truck.setName(nameTruck);
-                    truckBrand = register.substring(32, 46).trim();
-                    truck.setTruckBrand(truckBrand);
-                    licensePlace = register.substring(46, 57).trim();
-                    truck.setLicensePlace(licensePlace);
-                    truckType = register.substring(57, 71);
-                    truck.setTruckType(TruckType.valueOf(truckType));
-                    fuelType = register.substring(71,82);
-                    truck.setFuelType(FuelType.valueOf(fuelType));
-                    status = register.substring(90, 106);
-                    truck.setStatus(status);
-                    company.setId((Integer.parseInt(register.substring(86, 92))));
-                    truck.setCompany(company);
+                        nameTruck = register.substring(2, 22).trim();
+                        truck.setName(nameTruck);
+                        truckBrand = register.substring(22, 36).trim();
+                        truck.setTruckBrand(truckBrand);
+                        licensePlace = register.substring(36, 47).trim();
+                        truck.setLicensePlace(licensePlace);
+                        truckType = register.substring(47, 61).toUpperCase(Locale.ROOT).trim();
+                        truck.setTruckType(TruckType.valueOf(truckType));
+                        fuelType = register.substring(61, 72).toUpperCase(Locale.ROOT).trim();
+                        truck.setFuelType(FuelType.valueOf(fuelType));
+                        status = register.substring(72, 88).trim();
+                        truck.setStatus(status);
+                        company.setId((Integer.parseInt(register.substring(88, 94))));
+                        truck.setCompany(company);
+//                        0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+//                        02NOMECAMINHOTESTETESTMercedesDXXXXXXIOTRU-4276BUCKET        S500       LIVRE           000001
 
-                    truckRepository.save(truck);
-                    contRegister++;
 
-                } else if (typeRegister.equals("04")) {
 
-                    Trucker trucker = new Trucker();
-                    Company company = new Company();
+                        truckServices.create(truck);
+                        contRegister++;
 
-                    name = register.substring(2, 30).trim();
-                    trucker.setName(name);
-                    birthDate = register.substring(30, 40).trim();
-                    trucker.setBirthDate(LocalDate.parse(birthDate));
-                    cpf = register.substring(40, 54).trim();
-                    trucker.setCpf(cpf);
-                    cnh = register.substring(54, 65).trim();
-                    trucker.setCnh(cnh);
-                    phoneNumber = register.substring(65, 79).trim();
-                    trucker.setPhoneNumber(phoneNumber);
-                    certification = register.substring(79, 94).trim();
-                    trucker.setCertification(certification);
-                    company.setId((Integer.parseInt(register.substring(94, 100))));
-                    trucker.setCompany(company);
+                        break;
+                    }
+                    case "04": {
 
-                    //Utiliza no register dessa maneira para double, lembrar de usar parseDouble;
-                    //.replace(',', '.')
+                        Trucker trucker = new Trucker();
+                        Company company = new Company();
 
-                    truckerRepository.save(trucker);
-                    contRegister++;
+                        name = register.substring(2, 30).trim();
+                        trucker.setName(name);
+                        birthDate = register.substring(30, 40).trim();
+                        trucker.setBirthDate(LocalDate.parse(birthDate));
+                        cpf = register.substring(40, 54).trim();
+                        trucker.setCpf(cpf);
+                        cnh = register.substring(54, 65).trim();
+                        trucker.setCnh(cnh);
+                        phoneNumber = register.substring(65, 79).trim();
+                        trucker.setPhoneNumber(phoneNumber);
+                        certification = register.substring(79, 94).trim();
+                        trucker.setCertification(certification);
+                        company.setId((Integer.parseInt(register.substring(94, 100))));
+                        trucker.setCompany(company);
+//                        0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+//                        04NOMENOMENOMENOMENOMENOMENOME1995-02-24499.914.138-8046328920451(11)95030-4166certificationXD000001
 
-                }  else {
-                    System.out.println("Tipo de registro inválido");
+                        //Utiliza no register dessa maneira para double, lembrar de usar parseDouble;
+                        //.replace(',', '.')
+
+                        truckerServices.create(trucker);
+                        contRegister++;
+
+                        break;
+                    }
+                    default:
+                        System.out.println("Tipo de registro inválido");
+                        break;
                 }
 
                 register = input.readLine();
