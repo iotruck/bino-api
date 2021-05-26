@@ -3,8 +3,10 @@ package br.com.iotruck.bino.controller;
 import br.com.iotruck.bino.dto.TruckerDto;
 import br.com.iotruck.bino.entity.Trucker;
 import br.com.iotruck.bino.extensions.PilhaObj;
+import br.com.iotruck.bino.extensions.ReadFile;
 import br.com.iotruck.bino.repository.ICompanyRepository;
 import br.com.iotruck.bino.repository.ITruckerRepository;
+import br.com.iotruck.bino.services.TruckServices;
 import br.com.iotruck.bino.services.TruckerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,8 +14,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +41,9 @@ public class TruckerController {
 
     @Autowired
     TruckerService services;
+
+    @Autowired
+    TruckServices truckServices;
 
     @GetMapping("/{id}")
     @ApiOperation("Retorna um caminhoneiro buscando por id")
@@ -103,6 +113,17 @@ public class TruckerController {
             return putTrucker(trucker.getId(), trucker);
         }
         return ResponseEntity.status(404).build();
+    }
+
+    @PostMapping("/upload")
+    @ApiOperation("Endpoint para upload de dados")
+    public ResponseEntity enviar(@RequestParam MultipartFile arquivo) throws IOException {
+
+        ReadFile readFile = new ReadFile(services,truckServices);
+
+        readFile.reader(arquivo);
+
+        return ResponseEntity.status(201).build();
     }
 
 }
