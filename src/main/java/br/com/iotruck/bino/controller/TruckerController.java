@@ -116,6 +116,7 @@ public class TruckerController {
     }
 
     @PostMapping("/upload")
+    @ApiOperation("Endpoint para upload de dados")
     public ResponseEntity enviar(@RequestParam MultipartFile arquivo) throws IOException {
 
         ReadFile readFile = new ReadFile(services,truckServices);
