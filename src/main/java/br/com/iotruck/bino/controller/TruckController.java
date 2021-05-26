@@ -2,6 +2,8 @@ package br.com.iotruck.bino.controller;
 
 import br.com.iotruck.bino.dto.TruckDto;
 import br.com.iotruck.bino.entity.Truck;
+import br.com.iotruck.bino.repository.ICompanyRepository;
+import br.com.iotruck.bino.repository.ITravelRepository;
 import br.com.iotruck.bino.repository.ITruckRepository;
 import br.com.iotruck.bino.repository.ITruckerRepository;
 import br.com.iotruck.bino.services.TruckServices;
@@ -24,6 +26,9 @@ public class TruckController {
 
     @Autowired
     private ITruckRepository truckRepository;
+
+    @Autowired
+    private ICompanyRepository companyRepository;
 
     @Autowired
     TruckServices services;
@@ -75,7 +80,7 @@ public class TruckController {
 
     @GetMapping("/score/{id}")
     public ResponseEntity getCount(@PathVariable Integer id) {
-        if (truckRepository.existsById(id)) {
+        if (companyRepository.existsById(id)) {
             return ResponseEntity.ok().body(truckRepository.countByCompanyId(id));
         } else {
             return ResponseEntity.notFound().build();

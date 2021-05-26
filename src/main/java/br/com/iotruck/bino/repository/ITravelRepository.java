@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ITravelRepository extends JpaRepository<Travel, Integer> {
 
-    @Query("select t from Travel t where t.id = ?1")
+    @Query("select t from Travel t where t.analyst.id = ?1")
     List<TravelDto> findAllByAnalystId(Integer id);
 
     Travel findByAnalystIdAndId(Integer analystId, Integer id);

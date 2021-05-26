@@ -35,7 +35,6 @@ public class Trucker {
     private String phoneNumber;
     @NotBlank
     private String certification;
-
     @NotNull
     @JoinColumn(name = "id_company")
     @ManyToOne
