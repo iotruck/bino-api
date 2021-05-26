@@ -4,6 +4,7 @@ import br.com.iotruck.bino.dto.TruckerDto;
 import br.com.iotruck.bino.entity.Trucker;
 import br.com.iotruck.bino.extensions.PilhaObj;
 import br.com.iotruck.bino.extensions.ReadFile;
+import br.com.iotruck.bino.repository.ICompanyRepository;
 import br.com.iotruck.bino.repository.ITruckerRepository;
 import br.com.iotruck.bino.services.TruckServices;
 import br.com.iotruck.bino.services.TruckerService;
@@ -32,6 +33,9 @@ public class TruckerController {
 
     @Autowired
     private ITruckerRepository truckerRepository;
+
+    @Autowired
+    private ICompanyRepository companyRepository;
 
     PilhaObj<Trucker> pilhaTrucker = new PilhaObj<>(999);
 
@@ -95,7 +99,7 @@ public class TruckerController {
 
     @GetMapping("/score/{id}")
     public ResponseEntity getCount(@PathVariable Integer id) {
-        if (truckerRepository.existsById(id)) {
+        if (companyRepository.existsById(id)) {
             return ResponseEntity.ok().body(truckerRepository.countByCompanyId(id));
         } else {
             return ResponseEntity.notFound().build();
