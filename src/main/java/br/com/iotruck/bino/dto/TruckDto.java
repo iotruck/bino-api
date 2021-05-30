@@ -12,6 +12,7 @@ public class TruckDto {
     private String name;
     private String truckBrand;
     private TruckType truckType;
+    private String licensePlate;
     private FuelType fuelType;
 
     public TruckDto(Truck truck) {
@@ -60,5 +61,13 @@ public class TruckDto {
 
     public void setFuelType(FuelType fuelType) {
         this.fuelType = fuelType;
+    }
+
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
     }
 }
