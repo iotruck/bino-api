@@ -20,6 +20,7 @@ public class TruckDto {
         this.name = truck.getName();
         this.truckBrand = truck.getTruckBrand();
         this.truckType = truck.getTruckType();
+        this.licensePlate = truck.getLicensePlate();
         this.fuelType = truck.getFuelType();
     }
 
