@@ -13,6 +13,7 @@ public class TruckDto {
     private String name;
     private String truckBrand;
     private TruckType truckType;
+    private String licensePlate;
     private FuelType fuelType;
     private TruckStatus status;
 
@@ -21,6 +22,7 @@ public class TruckDto {
         this.name = truck.getName();
         this.truckBrand = truck.getTruckBrand();
         this.truckType = truck.getTruckType();
+        this.licensePlate = truck.getLicensePlate();
         this.fuelType = truck.getFuelType();
         this.status = truck.getStatus();
     }
@@ -71,5 +73,13 @@ public class TruckDto {
 
     public void setStatus(TruckStatus status) {
         this.status = status;
+    }
+
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
     }
 }

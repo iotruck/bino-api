@@ -29,7 +29,7 @@ public class Truck {
     private String truckBrand;
     @NotBlank
     @Size(min = 6, max = 110)
-    private String licensePlace;
+    private String licensePlate;
     @NotNull
     private TruckType truckType;
     @NotNull

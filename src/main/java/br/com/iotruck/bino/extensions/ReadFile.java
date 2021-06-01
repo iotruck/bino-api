@@ -57,7 +57,7 @@ public class ReadFile {
         Integer id;
         String nameTruck;
         String truckBrand;
-        String licensePlace;
+        String licensePlate;
         String truckType;
         String fuelType;
         String status;
@@ -93,8 +93,8 @@ public class ReadFile {
                         truck.setName(nameTruck);
                         truckBrand = register.substring(22, 36).trim();
                         truck.setTruckBrand(truckBrand);
-                        licensePlace = register.substring(36, 47).trim();
-                        truck.setLicensePlace(licensePlace);
+                        licensePlate = register.substring(36, 47).trim();
+                        truck.setLicensePlate(licensePlate);
                         truckType = register.substring(47, 61).toUpperCase(Locale.ROOT).trim();
                         truck.setTruckType(TruckType.valueOf(truckType));
                         fuelType = register.substring(61, 72).toUpperCase(Locale.ROOT).trim();
