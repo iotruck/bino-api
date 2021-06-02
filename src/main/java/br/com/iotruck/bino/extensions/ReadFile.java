@@ -104,7 +104,7 @@ public class ReadFile {
                         company.setId((Integer.parseInt(register.substring(88, 94))));
                         truck.setCompany(company);
 //                        0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
-//                        02NOMECAMINHOTESTETESTMercedesDXXXXXXIOTRU-4276BUCKET        S500       FREE           000001
+//                        02NOMECAMINHOTESTETESTMercedesDXXXXXXIOTRU-4276BUCKET        S500       FREE            000001
 
 
 
