@@ -1,6 +1,7 @@
 package br.com.iotruck.bino.entity;
 
 import br.com.iotruck.bino.entity.enuns.FuelType;
+import br.com.iotruck.bino.entity.enuns.TruckStatus;
 import br.com.iotruck.bino.entity.enuns.TruckType;
 import lombok.*;
 
@@ -33,8 +34,8 @@ public class Truck {
     private TruckType truckType;
     @NotNull
     private FuelType fuelType;
-    @NotBlank
-    private String status;
+
+    private TruckStatus status = TruckStatus.FREE;
 
     @NotNull
     @JoinColumn(name = "id_company")

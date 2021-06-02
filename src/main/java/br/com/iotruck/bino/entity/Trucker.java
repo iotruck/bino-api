@@ -1,9 +1,8 @@
 package br.com.iotruck.bino.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.com.iotruck.bino.entity.enuns.TruckerStatus;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.http.ResponseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -35,6 +34,8 @@ public class Trucker {
     private String phoneNumber;
     @NotBlank
     private String certification;
+
+    private TruckerStatus status = TruckerStatus.FREE;
     @NotNull
     @JoinColumn(name = "id_company")
     @ManyToOne
