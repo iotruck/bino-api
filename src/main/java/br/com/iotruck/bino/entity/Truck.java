@@ -1,8 +1,8 @@
 package br.com.iotruck.bino.entity;
 
 import br.com.iotruck.bino.entity.enuns.FuelType;
+import br.com.iotruck.bino.entity.enuns.TruckStatus;
 import br.com.iotruck.bino.entity.enuns.TruckType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,13 +29,13 @@ public class Truck {
     private String truckBrand;
     @NotBlank
     @Size(min = 6, max = 110)
-    private String licensePlace;
+    private String licensePlate;
     @NotNull
     private TruckType truckType;
     @NotNull
     private FuelType fuelType;
-    @NotBlank
-    private String status;
+
+    private TruckStatus status = TruckStatus.FREE;
 
     @NotNull
     @JoinColumn(name = "id_company")

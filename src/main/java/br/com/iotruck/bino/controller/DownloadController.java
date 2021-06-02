@@ -95,7 +95,7 @@ public class DownloadController {
             corpo = String.format("%03d", t.getId());
             corpo += String.format("%7s", t.getName());
             corpo += String.format("%4s", t.getTruckBrand());
-            corpo += String.format("%13s", t.getLicensePlace());
+            corpo += String.format("%13s", t.getLicensePlate());
             corpo += String.format("%9s", t.getTruckType());
             corpo += String.format("%8s", t.getFuelType());
             corpo += String.format("%20s", t.getStatus());
