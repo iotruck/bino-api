@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RequestMapping("/company")
 @CrossOrigin(origins = "*")
@@ -23,6 +24,17 @@ public class CompanyController {
     final SecurityAnalystServices analystServices;
 
     final CompanyServices companyServices;
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity getCompanyByAdress(@PathVariable int id) {
+        Optional<Company> company = companyServices.findCompanyById(id);
+        if (company.isPresent()) {
+            return ResponseEntity.status(200).body(company);
+        } else {
+            return ResponseEntity.status(204).build();
+        }
+    }
 
     @PostMapping
     @ApiOperation("Cria uma empresa e um analista admin")
