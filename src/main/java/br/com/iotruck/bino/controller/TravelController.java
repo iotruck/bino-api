@@ -3,6 +3,10 @@ package br.com.iotruck.bino.controller;
 
 import br.com.iotruck.bino.dto.TravelDto;
 import br.com.iotruck.bino.entity.Travel;
+import br.com.iotruck.bino.entity.Truck;
+import br.com.iotruck.bino.entity.Trucker;
+import br.com.iotruck.bino.entity.enuns.TruckStatus;
+import br.com.iotruck.bino.entity.enuns.TruckerStatus;
 import br.com.iotruck.bino.extensions.FilaObj;
 import br.com.iotruck.bino.repository.ITravelRepository;
 import br.com.iotruck.bino.repository.ITruckRepository;
@@ -84,12 +88,25 @@ public class TravelController {
 
         Integer idTrucker = travel.getTrucker().getId();
 
-        if (truckerRepository.existsById(idTrucker) && truckRepository.existsById(idTruck)) {
+        Optional<Truck> truck = truckRepository.findById(idTruck);
+        Optional<Trucker> trucker = truckerRepository.findById(idTrucker);
 
-            repository.save(travel);
+        if (trucker.isPresent() && truck.isPresent()) {
 
-            return ResponseEntity.status(201).build();
+            if (trucker.get().getStatus().equals(TruckerStatus.FREE) && truck.get().getStatus().equals(TruckStatus.FREE)){
+                truck.get().setStatus(TruckStatus.BUSY);
+                trucker.get().setStatus(TruckerStatus.BUSY);
+                repository.save(travel);
+                truckerRepository.save(trucker.get());
+                truckRepository.save(truck.get());
 
+                return ResponseEntity.status(201).build();
+
+            }else {
+
+                return ResponseEntity.status(400).body("Caminhoneiro ou Caminhão em uso, por favor selecione outro para essa viagem");
+
+            }
         } else {
 
             return ResponseEntity.status(400).build();

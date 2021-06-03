@@ -4,6 +4,7 @@ import br.com.iotruck.bino.entity.Company;
 import br.com.iotruck.bino.entity.Truck;
 import br.com.iotruck.bino.entity.Trucker;
 import br.com.iotruck.bino.entity.enuns.FuelType;
+import br.com.iotruck.bino.entity.enuns.TruckStatus;
 import br.com.iotruck.bino.entity.enuns.TruckType;
 import br.com.iotruck.bino.repository.ITruckRepository;
 import br.com.iotruck.bino.repository.ITruckerRepository;
@@ -56,7 +57,7 @@ public class ReadFile {
         Integer id;
         String nameTruck;
         String truckBrand;
-        String licensePlace;
+        String licensePlate;
         String truckType;
         String fuelType;
         String status;
@@ -92,18 +93,18 @@ public class ReadFile {
                         truck.setName(nameTruck);
                         truckBrand = register.substring(22, 36).trim();
                         truck.setTruckBrand(truckBrand);
-                        licensePlace = register.substring(36, 47).trim();
-                        truck.setLicensePlace(licensePlace);
+                        licensePlate = register.substring(36, 47).trim();
+                        truck.setLicensePlate(licensePlate);
                         truckType = register.substring(47, 61).toUpperCase(Locale.ROOT).trim();
                         truck.setTruckType(TruckType.valueOf(truckType));
                         fuelType = register.substring(61, 72).toUpperCase(Locale.ROOT).trim();
                         truck.setFuelType(FuelType.valueOf(fuelType));
-                        status = register.substring(72, 88).trim();
-                        truck.setStatus(status);
+                        status = register.substring(72, 88).toUpperCase(Locale.ROOT).trim();
+                        truck.setStatus(TruckStatus.valueOf(status));
                         company.setId((Integer.parseInt(register.substring(88, 94))));
                         truck.setCompany(company);
 //                        0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
-//                        02NOMECAMINHOTESTETESTMercedesDXXXXXXIOTRU-4276BUCKET        S500       LIVRE           000001
+//                        02NOMECAMINHOTESTETESTMercedesDXXXXXXIOTRU-4276BUCKET        S500       FREE            000001
 
 
 

@@ -6,6 +6,8 @@ import br.com.iotruck.bino.services.interfaces.ICompanyServices;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class CompanyServices implements ICompanyServices {
@@ -21,5 +23,10 @@ public class CompanyServices implements ICompanyServices {
     public Company findByCnpj(String cnpj) {
 
         return repository.findByCnpj(cnpj);
+    }
+
+    public Optional<Company> findCompanyById(int id){
+
+        return repository.findById(id);
     }
 }

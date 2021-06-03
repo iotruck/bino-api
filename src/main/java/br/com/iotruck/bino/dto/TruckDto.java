@@ -2,6 +2,7 @@ package br.com.iotruck.bino.dto;
 
 import br.com.iotruck.bino.entity.Truck;
 import br.com.iotruck.bino.entity.enuns.FuelType;
+import br.com.iotruck.bino.entity.enuns.TruckStatus;
 import br.com.iotruck.bino.entity.enuns.TruckType;
 
 
@@ -12,14 +13,18 @@ public class TruckDto {
     private String name;
     private String truckBrand;
     private TruckType truckType;
+    private String licensePlate;
     private FuelType fuelType;
+    private TruckStatus status;
 
     public TruckDto(Truck truck) {
         this.id = truck.getId();
         this.name = truck.getName();
         this.truckBrand = truck.getTruckBrand();
         this.truckType = truck.getTruckType();
+        this.licensePlate = truck.getLicensePlate();
         this.fuelType = truck.getFuelType();
+        this.status = truck.getStatus();
     }
 
     public int getId() {
@@ -60,5 +65,21 @@ public class TruckDto {
 
     public void setFuelType(FuelType fuelType) {
         this.fuelType = fuelType;
+    }
+
+    public TruckStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TruckStatus status) {
+        this.status = status;
+    }
+
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
     }
 }
