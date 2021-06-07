@@ -14,4 +14,6 @@ public interface ITruckerRepository extends JpaRepository<Trucker, Integer> {
 
     Integer countByCompanyId(Integer id);
 
+    Trucker findByCpf(String cpf);
+
 }

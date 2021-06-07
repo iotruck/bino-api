@@ -61,4 +61,10 @@ public class TruckServices implements ITruckServices {
         return repository.countByCompanyId(id);
 
     }
+
+    @Override
+    public Truck findByLicensePlate(String licensePlate) {
+        Truck truck = repository.findByLicensePlate(licensePlate);
+        return truck != null ? truck : null;
+    }
 }

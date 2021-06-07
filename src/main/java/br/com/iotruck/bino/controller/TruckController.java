@@ -2,6 +2,7 @@ package br.com.iotruck.bino.controller;
 
 import br.com.iotruck.bino.dto.TruckDto;
 import br.com.iotruck.bino.entity.Truck;
+import br.com.iotruck.bino.entity.Trucker;
 import br.com.iotruck.bino.repository.ICompanyRepository;
 import br.com.iotruck.bino.repository.ITravelRepository;
 import br.com.iotruck.bino.repository.ITruckRepository;
@@ -40,6 +41,16 @@ public class TruckController {
             return ResponseEntity.badRequest().body("O id não pode ser menor ou igual a zero");
 
         return ResponseEntity.of(services.getById(id));
+    }
+
+    @GetMapping("/plate/{licensePlate}")
+    @ApiOperation("Retorna um caminhão buscando pela placa")
+    public ResponseEntity getById(@PathVariable String licensePlate) {
+
+        Truck truck = truckRepository.findByLicensePlate(licensePlate);
+
+        return truck != null ? ResponseEntity.status(200).body(truck) : ResponseEntity.status(404).build();
+
     }
 
     @GetMapping("/company/{id}")
