@@ -18,4 +18,6 @@ public interface ITruckerService {
     List<TruckerDto> findAllByCompanyId(Integer id);
 
     Integer countByCompanyId(Integer id);
+
+    Trucker findByCpf(String cpf);
 }

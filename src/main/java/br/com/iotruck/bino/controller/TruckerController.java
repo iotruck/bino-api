@@ -10,7 +10,6 @@ import br.com.iotruck.bino.services.TruckServices;
 import br.com.iotruck.bino.services.TruckerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +48,16 @@ public class TruckerController {
             return ResponseEntity.badRequest().body("O id não pode ser menor ou igual a zero");
 
         return ResponseEntity.of(services.getById(id));
+    }
+
+    @GetMapping("/cpf/{cpf}")
+    @ApiOperation("Retorna um caminhoneiro buscando por cpf")
+    public ResponseEntity getById(@PathVariable String cpf) {
+
+        Trucker trucker = truckerRepository.findByCpf(cpf);
+
+        return trucker != null ? ResponseEntity.status(200).body(trucker) : ResponseEntity.status(404).build();
+
     }
 
     @GetMapping("/company/{id}")

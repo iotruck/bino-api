@@ -66,4 +66,10 @@ public class TruckerService implements ITruckerService {
         return repository.findById(id);
 
     }
+
+    @Override
+    public Trucker findByCpf(String cpf) {
+        Trucker trucker = repository.findByCpf(cpf);
+        return trucker != null ? trucker : null;
+    }
 }
