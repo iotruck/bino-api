@@ -52,7 +52,7 @@ public class TruckerController {
 
     @GetMapping("/cpf/{cpf}")
     @ApiOperation("Retorna um caminhoneiro buscando por cpf")
-    public ResponseEntity getById(@PathVariable String cpf) {
+    public ResponseEntity getByCpf(@PathVariable String cpf) {
 
         Trucker trucker = truckerRepository.findByCpf(cpf);
 
