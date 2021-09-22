@@ -13,6 +13,6 @@ public interface ITruckRepository extends JpaRepository<Truck, Integer> {
 
     Integer countByCompanyId(Integer id);
 
-    Truck findByLicensePlate(String licensePlate);
+    Truck findByLicensePlateAndCompanyId(String licensePlate,Integer CompanyId);
 
 }
