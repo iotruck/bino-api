@@ -43,11 +43,11 @@ public class TruckController {
         return ResponseEntity.of(services.getById(id));
     }
 
-    @GetMapping("/plate/{licensePlate}")
+    @GetMapping("/plate/{licensePlate}/{companyId}")
     @ApiOperation("Retorna um caminhão buscando pela placa")
-    public ResponseEntity getById(@PathVariable String licensePlate) {
+    public ResponseEntity getById(@PathVariable String licensePlate, @PathVariable Integer companyId) {
 
-        Truck truck = truckRepository.findByLicensePlate(licensePlate);
+        Truck truck = truckRepository.findByLicensePlateAndCompanyId(licensePlate, companyId);
 
         return truck != null ? ResponseEntity.status(200).body(truck) : ResponseEntity.status(404).build();
 
