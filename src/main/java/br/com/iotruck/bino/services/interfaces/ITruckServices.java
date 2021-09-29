@@ -18,6 +18,4 @@ public interface ITruckServices {
     List<TruckDto> findAllByCompanyId(Integer id);
 
     Integer countByCompanyId(Integer id);
-
-    Truck findByLicensePlate(String licensePlate);
 }
