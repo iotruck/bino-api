@@ -1,7 +1,10 @@
 package br.com.iotruck.bino.controller;
 
+import br.com.iotruck.bino.dto.SecurityAnalystDto;
 import br.com.iotruck.bino.dto.TruckerDto;
+import br.com.iotruck.bino.entity.SecurityAnalystLogin;
 import br.com.iotruck.bino.entity.Trucker;
+import br.com.iotruck.bino.entity.TruckerLogin;
 import br.com.iotruck.bino.extensions.PilhaObj;
 import br.com.iotruck.bino.extensions.ReadFile;
 import br.com.iotruck.bino.repository.ICompanyRepository;
@@ -132,4 +135,14 @@ public class TruckerController {
         return ResponseEntity.status(201).build();
     }
 
+    @PostMapping("/login")
+    @ApiOperation("Login caminhoneiro")
+    public ResponseEntity login(@RequestBody TruckerLogin truckerLogin) {
+        String email = truckerLogin.getEmail();
+        String password = truckerLogin.getPassword();
+
+        TruckerDto trucker = services.login(email, password);
+
+        return trucker != null ? ResponseEntity.ok().body(trucker) : ResponseEntity.status(401).body("Usuario Invalido");
+    }
 }

@@ -22,6 +22,15 @@ public class Trucker {
     @NotBlank
     @Size(min = 3, max = 50)
     private String name;
+
+    @NotBlank
+    @Email
+    private String email;
+
+    @NotBlank
+    @Size(min = 8)
+    private String password;
+
     @Past
     @NotNull
     private LocalDate birthDate;
