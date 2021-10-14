@@ -16,4 +16,6 @@ public interface ITruckerRepository extends JpaRepository<Trucker, Integer> {
 
     Trucker findByCpf(String cpf);
 
+    Trucker findByEmailAndPassword(String email, String password);
+
 }
