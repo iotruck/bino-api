@@ -72,4 +72,12 @@ public class TruckerService implements ITruckerService {
         Trucker trucker = repository.findByCpf(cpf);
         return trucker != null ? trucker : null;
     }
+
+    public TruckerDto login(String email, String password) {
+        Trucker trucker = repository.findByEmailAndPassword(email, password);
+        if (trucker != null)
+            return new TruckerDto(trucker);
+
+        return null;
+    }
 }
