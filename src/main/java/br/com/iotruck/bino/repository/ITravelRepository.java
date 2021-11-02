@@ -1,6 +1,7 @@
 package br.com.iotruck.bino.repository;
 
 import br.com.iotruck.bino.dto.TravelDto;
+import br.com.iotruck.bino.entity.Feed;
 import br.com.iotruck.bino.entity.Travel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
