@@ -25,10 +25,6 @@ public class Travel {
     @OneToOne(cascade= CascadeType.ALL)
     private Location currentTruckPosition;
 
-    @JoinColumn(name = "fk_feed")
-    @OneToOne(cascade= CascadeType.ALL)
-    private Feed feed;
-
     @NotBlank
     private String description;
 
@@ -137,13 +133,5 @@ public class Travel {
 
     public void setStatus(TravelStatus status) {
         this.status = status;
-    }
-
-    public Feed getFeed() {
-        return feed;
-    }
-
-    public void setFeed(Feed feed) {
-        this.feed = feed;
     }
 }

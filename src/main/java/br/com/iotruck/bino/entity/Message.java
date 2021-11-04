@@ -1,5 +1,7 @@
 package br.com.iotruck.bino.entity;
 
+import br.com.iotruck.bino.controller.TravelController;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,9 +22,9 @@ public class Message {
     private String sender;
 
     @NotNull
-    @JoinColumn(name = "id_feed")
+    @JoinColumn(name = "id_travel")
     @ManyToOne
-    private Feed feed;
+    private Travel travel;
 
     public Integer getId() {
         return id;
@@ -56,11 +58,10 @@ public class Message {
         this.sender = sender;
     }
 
-    public Feed getFeed() {
-        return feed;
+    public Travel getTravel() {
+        return travel;
     }
-
-    public void setFeed(Feed feed) {
-        this.feed = feed;
+    public void setTravel(Travel travel) {
+        this.travel = travel;
     }
 }
