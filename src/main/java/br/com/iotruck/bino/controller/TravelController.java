@@ -8,12 +8,12 @@ import br.com.iotruck.bino.entity.Trucker;
 import br.com.iotruck.bino.entity.enuns.TruckStatus;
 import br.com.iotruck.bino.entity.enuns.TruckerStatus;
 import br.com.iotruck.bino.extensions.FilaObj;
+import br.com.iotruck.bino.repository.IMessageRepository;
 import br.com.iotruck.bino.repository.ITravelRepository;
 import br.com.iotruck.bino.repository.ITruckRepository;
 import br.com.iotruck.bino.repository.ITruckerRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +38,9 @@ public class TravelController {
 
     @Autowired
     private ITruckRepository truckRepository;
+
+    @Autowired
+    private IMessageRepository messageRepository;
 
     FilaObj<Travel> filaObj = new FilaObj<>(10);
 
@@ -99,7 +102,6 @@ public class TravelController {
                 repository.save(travel);
                 truckerRepository.save(trucker.get());
                 truckRepository.save(truck.get());
-
                 return ResponseEntity.status(201).build();
 
             }else {
