@@ -13,6 +13,8 @@ public class TruckerDto {
     private String cnh;
     private LocalDate birthDate;
     private String phoneNumber;
+    private String email;
+    private String password;
 
     public TruckerDto(Trucker trucker) {
         this.id = trucker.getId();
@@ -21,6 +23,8 @@ public class TruckerDto {
         this.cnh = trucker.getCnh();
         this.birthDate = trucker.getBirthDate();
         this.phoneNumber = trucker.getPhoneNumber();
+        this.email = trucker.getEmail();
+        this.password = trucker.getPassword();
     }
 
     public int getId() {
@@ -69,5 +73,21 @@ public class TruckerDto {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
