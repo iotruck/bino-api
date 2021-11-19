@@ -46,8 +46,19 @@ public class TravelController {
 
     List<Travel> travelList = new ArrayList<>();
 
+    @GetMapping("/trucker/{id}")
+    @ApiOperation("Listagem de viagens pelo caminhoneiro")
+    public ResponseEntity getTravelsTrucker(@PathVariable Integer id) {
+        List<TravelDto> travels = repository.findAllByTruckertId(id);
+
+        if (travels.isEmpty())
+            return ResponseEntity.status(204).build();
+
+        return ResponseEntity.status(200).body(travels);
+    }
+
     @GetMapping("/analyst/{id}")
-    @ApiOperation("Listagem de viagens")
+    @ApiOperation("Listagem de viagens pelo analista")
     public ResponseEntity getTravels(@PathVariable Integer id) {
         List<TravelDto> travels = repository.findAllByAnalystId(id);
 
@@ -69,8 +80,23 @@ public class TravelController {
         return ResponseEntity.status(200).body(travels);
     }
 
+    @GetMapping("/{id_trucker}/{id}")
+    @ApiOperation("Retorna uma viagem pelo caminhoneiro")
+    public ResponseEntity getTravelTrucker(@PathVariable int id_trucker, @PathVariable int id) {
+        if (id <= 0)
+            return ResponseEntity.status(400).body("O id não pode ser menor ou igual a zero");
+
+        Travel travel = repository.findByAnalystIdAndId(id_trucker, id);
+
+        if (travel != null)
+            return ResponseEntity.status(200).body(travel);
+
+        return ResponseEntity.status(404).build();
+
+    }
+
     @GetMapping("/{id_analyst}/{id}")
-    @ApiOperation("Retorna uma viagem")
+    @ApiOperation("Retorna uma viagem pelo analista")
     public ResponseEntity getTravels(@PathVariable int id_analyst, @PathVariable int id) {
         if (id <= 0)
             return ResponseEntity.status(400).body("O id não pode ser menor ou igual a zero");
