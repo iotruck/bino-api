@@ -1,6 +1,7 @@
 package br.com.iotruck.bino.dto;
 
 import br.com.iotruck.bino.entity.*;
+import br.com.iotruck.bino.entity.enuns.TravelStatus;
 
 import java.time.LocalDate;
 
@@ -10,6 +11,8 @@ public class TravelDto {
     private Integer id;
     private String codigo;
     private Location destiny;
+    private Double estimatedValue;
+    private TravelStatus status;
     private Location currentTruckPosition;
     private String description;
     private LocalDate dateTravel;
@@ -18,10 +21,11 @@ public class TravelDto {
     private SecurityAnalystDto analyst;
 
     public TravelDto(Travel travel) {
-
         this.id = travel.getId();
         this.codigo = travel.getCodigo();
         this.destiny = travel.getDestiny();
+        this.estimatedValue = travel.getEstimatedValue();
+        this.status = travel.getStatus();
         this.currentTruckPosition = travel.getCurrentTruckPosition();
         this.description = travel.getDescription();
         this.dateTravel = travel.getDateTravel();
@@ -52,6 +56,22 @@ public class TravelDto {
 
     public void setDestiny(Location destiny) {
         this.destiny = destiny;
+    }
+
+    public Double getEstimatedValue() {
+        return estimatedValue;
+    }
+
+    public void setEstimatedValue(Double estimatedValue) {
+        this.estimatedValue = estimatedValue;
+    }
+
+    public TravelStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TravelStatus status) {
+        this.status = status;
     }
 
     public Location getCurrentTruckPosition() {

@@ -5,6 +5,7 @@ import br.com.iotruck.bino.dto.TravelDto;
 import br.com.iotruck.bino.entity.Travel;
 import br.com.iotruck.bino.entity.Truck;
 import br.com.iotruck.bino.entity.Trucker;
+import br.com.iotruck.bino.entity.enuns.TravelStatus;
 import br.com.iotruck.bino.entity.enuns.TruckStatus;
 import br.com.iotruck.bino.entity.enuns.TruckerStatus;
 import br.com.iotruck.bino.extensions.FilaObj;
@@ -80,13 +81,13 @@ public class TravelController {
         return ResponseEntity.status(200).body(travels);
     }
 
-    @GetMapping("/{id_trucker}/{id}")
+    @GetMapping("trucker/{id_trucker}/{id}")
     @ApiOperation("Retorna uma viagem pelo caminhoneiro")
     public ResponseEntity getTravelTrucker(@PathVariable int id_trucker, @PathVariable int id) {
         if (id <= 0)
             return ResponseEntity.status(400).body("O id não pode ser menor ou igual a zero");
 
-        Travel travel = repository.findByAnalystIdAndId(id_trucker, id);
+        Travel travel = repository.findByTruckerIdAndId(id_trucker, id);
 
         if (travel != null)
             return ResponseEntity.status(200).body(travel);
@@ -95,7 +96,7 @@ public class TravelController {
 
     }
 
-    @GetMapping("/{id_analyst}/{id}")
+    @GetMapping("analyst/{id_analyst}/{id}")
     @ApiOperation("Retorna uma viagem pelo analista")
     public ResponseEntity getTravels(@PathVariable int id_analyst, @PathVariable int id) {
         if (id <= 0)
@@ -114,7 +115,6 @@ public class TravelController {
     @ApiOperation("Cria uma viagem")
     public ResponseEntity postTravel(@Valid @RequestBody Travel travel) {
         Integer idTruck = travel.getTruck().getId();
-
         Integer idTrucker = travel.getTrucker().getId();
 
         Optional<Truck> truck = truckRepository.findById(idTruck);
@@ -122,7 +122,11 @@ public class TravelController {
 
         if (trucker.isPresent() && truck.isPresent()) {
 
-            if (trucker.get().getStatus().equals(TruckerStatus.FREE) && truck.get().getStatus().equals(TruckStatus.FREE)){
+            Travel travelCheck = repository.findTravelByTruckerAndTruckAndDateTravel(
+                    idTrucker,
+                    idTruck,
+                    travel.getDateTravel().toString());
+            if (travelCheck == null){
                 truck.get().setStatus(TruckStatus.BUSY);
                 trucker.get().setStatus(TruckerStatus.BUSY);
                 repository.save(travel);
@@ -131,9 +135,7 @@ public class TravelController {
                 return ResponseEntity.status(201).build();
 
             }else {
-
                 return ResponseEntity.status(400).body("Caminhoneiro ou Caminhão em uso, por favor selecione outro para essa viagem");
-
             }
         } else {
 
@@ -207,5 +209,21 @@ public class TravelController {
                 }
             }
             return ResponseEntity.status(404).body("Requisição não processada");
+    }
+
+    @GetMapping("trucker/latter/{id}")
+    @ApiOperation("Retorna a última viagem do motorista")
+    public ResponseEntity getLatterTravelTrucker(@PathVariable int id) {
+        Travel travel = repository.findFirstByTruckerIdOrderByDateTravel(id);
+
+        if(travel != null) {
+            if(travel.getStatus() == TravelStatus.DONE) {
+                return ResponseEntity.status(204).build();
+            }
+            return ResponseEntity.status(200).body(travel);
+        } else {
+            return ResponseEntity.status(204).build();
+        }
+
     }
 }
