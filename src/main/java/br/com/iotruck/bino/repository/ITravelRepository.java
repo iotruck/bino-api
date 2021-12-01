@@ -3,6 +3,7 @@ package br.com.iotruck.bino.repository;
 import br.com.iotruck.bino.dto.TravelDto;
 import br.com.iotruck.bino.entity.Travel;
 import br.com.iotruck.bino.entity.Trucker;
+import br.com.iotruck.bino.entity.enuns.TravelStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -27,6 +28,8 @@ public interface ITravelRepository extends JpaRepository<Travel, Integer> {
     @Query("select t from Travel t where t.codigo like %?1%")
     List<TravelDto> findByCodigoLike(String codigo);
 
-    Travel findFirstByTruckerIdOrderByDateTravel(Integer id);
+    Travel findFirstByTruckerIdAndDateTravel(Integer id, LocalDate dateTravel);
+
+    Travel findFirstByTruckerIdAndStatus(Integer id, TravelStatus travelStatus);
 
 }
