@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -214,13 +216,18 @@ public class TravelController {
     @GetMapping("trucker/latter/{id}")
     @ApiOperation("Retorna a última viagem do motorista")
     public ResponseEntity getLatterTravelTrucker(@PathVariable int id) {
-        Travel travel = repository.findFirstByTruckerIdOrderByDateTravel(id);
 
-        if(travel != null) {
-            if(travel.getStatus() == TravelStatus.DONE) {
-                return ResponseEntity.status(204).build();
-            }
+        Travel travel = repository.findFirstByTruckerIdAndStatus(id, TravelStatus.ACTIVE);
+
+        if (travel != null) {
             return ResponseEntity.status(200).body(travel);
+        }
+
+        LocalDate dateNow = LocalDate.now(ZoneId.of("America/Sao_Paulo"));
+        Travel travelToday = repository.findFirstByTruckerIdAndDateTravel(id, dateNow);
+
+        if(travelToday != null) {
+            return ResponseEntity.status(200).body(travelToday);
         } else {
             return ResponseEntity.status(204).build();
         }
