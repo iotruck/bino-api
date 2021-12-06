@@ -30,7 +30,7 @@ public class MessageController {
 
         if (qtd == null) {
 
-            messages = messageRepository.findAllByTravelIdOrderByDateTimeMessageDesc(idTravel);
+            messages = messageRepository.findAllByTravelIdOrderByDateTimeMessage(idTravel);
 
             return ResponseEntity.status(200).body(messages.stream().map(s -> new MessageDto(s)).collect(Collectors.toList()));
         }
@@ -42,7 +42,7 @@ public class MessageController {
         } else if (diff.equals(0)) {
             return ResponseEntity.status(204).build();
         }
-        messages = messageRepository.findAllByTravelIdOrderByDateTimeMessageDesc(idTravel, PageRequest.of(0, diff));
+        messages = messageRepository.findAllByTravelIdOrderByDateTimeMessage(idTravel, PageRequest.of(0, diff));
 
         return ResponseEntity.status(200).body(messages.stream().map(s -> new MessageDto(s)).collect(Collectors.toList()));
     }
