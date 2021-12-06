@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,9 +44,14 @@ public class MessageController {
         } else if (diff.equals(0)) {
             return ResponseEntity.status(204).build();
         }
-        messages = messageRepository.findAllByTravelIdOrderByDateTimeMessage(idTravel, PageRequest.of(0, diff));
 
-        return ResponseEntity.status(200).body(messages.stream().map(s -> new MessageDto(s)).collect(Collectors.toList()));
+        messages = messageRepository.findAllByTravelIdOrderByDateTimeMessageDesc(idTravel, PageRequest.of(0, diff));
+
+        List<Message> sortedList = messages.stream()
+                .sorted(Comparator.comparing(Message::getDateTimeMessage))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(200).body(sortedList.stream().map(s -> new MessageDto(s)).collect(Collectors.toList()));
     }
 
     @PostMapping("/message")
