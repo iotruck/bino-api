@@ -11,7 +11,7 @@ public interface IMessageRepository extends JpaRepository<Message, Integer> {
 
     List<Message> findAllByTravelIdOrderByDateTimeMessage(Integer travelId);
 
-    List<Message> findAllByTravelIdOrderByDateTimeMessage(Integer travelId, Pageable pageable);
+    List<Message> findAllByTravelIdOrderByDateTimeMessageDesc(Integer travelId, Pageable pageable);
 
     Integer countByTravelId(Integer travelId);
 }
