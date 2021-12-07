@@ -9,10 +9,10 @@ import java.util.List;
 @Repository
 public interface ITruckRepository extends JpaRepository<Truck, Integer> {
 
-    List<Truck> findAllByCompanyId(Integer id);
+    List<Truck> findAllByCompanyIdAndIsDeletedIsFalse(Integer id);
 
-    Integer countByCompanyId(Integer id);
+    Integer countByCompanyIdAndIsDeletedIsFalse(Integer id);
 
-    Truck findByLicensePlateAndCompanyId(String licensePlate,Integer CompanyId);
+    Truck findByLicensePlateAndCompanyIdAndIsDeletedIsFalse(String licensePlate,Integer CompanyId);
 
 }

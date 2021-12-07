@@ -2,21 +2,18 @@ package br.com.iotruck.bino.controller;
 
 import br.com.iotruck.bino.dto.TruckDto;
 import br.com.iotruck.bino.entity.Truck;
-import br.com.iotruck.bino.entity.Trucker;
 import br.com.iotruck.bino.repository.ICompanyRepository;
-import br.com.iotruck.bino.repository.ITravelRepository;
 import br.com.iotruck.bino.repository.ITruckRepository;
-import br.com.iotruck.bino.repository.ITruckerRepository;
 import br.com.iotruck.bino.services.TruckServices;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/truck")
 @CrossOrigin(origins = "*")
@@ -47,7 +44,7 @@ public class TruckController {
     @ApiOperation("Retorna um caminhão buscando pela placa")
     public ResponseEntity getById(@PathVariable String licensePlate, @PathVariable Integer companyId) {
 
-        Truck truck = truckRepository.findByLicensePlateAndCompanyId(licensePlate, companyId);
+        Truck truck = truckRepository.findByLicensePlateAndCompanyIdAndIsDeletedIsFalse(licensePlate, companyId);
 
         return truck != null ? ResponseEntity.status(200).body(truck) : ResponseEntity.status(404).build();
 
@@ -83,16 +80,21 @@ public class TruckController {
     @DeleteMapping("/{id}")
     @ApiOperation("Remove um caminhão")
     public ResponseEntity deleteTruck(@PathVariable int id) {
-        if (services.delete(id))
-            return ResponseEntity.ok().build();
-
+        Optional<Truck> truck = truckRepository.findById(id);
+        if (truck.isPresent()){
+            if (!truck.get().getIsDeleted()){
+                truck.get().setIsDeleted(true);
+                services.update(id,truck.get());
+                return ResponseEntity.ok().build();
+            }
+        }
         return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/score/{id}")
     public ResponseEntity getCount(@PathVariable Integer id) {
         if (companyRepository.existsById(id)) {
-            return ResponseEntity.ok().body(truckRepository.countByCompanyId(id));
+            return ResponseEntity.ok().body(truckRepository.countByCompanyIdAndIsDeletedIsFalse(id));
         } else {
             return ResponseEntity.notFound().build();
         }
