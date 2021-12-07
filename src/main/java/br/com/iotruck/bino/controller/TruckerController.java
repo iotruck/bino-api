@@ -1,13 +1,12 @@
 package br.com.iotruck.bino.controller;
 
-import br.com.iotruck.bino.dto.SecurityAnalystDto;
 import br.com.iotruck.bino.dto.TruckerDto;
-import br.com.iotruck.bino.entity.SecurityAnalystLogin;
 import br.com.iotruck.bino.entity.Trucker;
 import br.com.iotruck.bino.entity.TruckerLogin;
 import br.com.iotruck.bino.extensions.PilhaObj;
 import br.com.iotruck.bino.extensions.ReadFile;
 import br.com.iotruck.bino.repository.ICompanyRepository;
+import br.com.iotruck.bino.repository.IMessageRepository;
 import br.com.iotruck.bino.repository.ITruckerRepository;
 import br.com.iotruck.bino.services.TruckServices;
 import br.com.iotruck.bino.services.TruckerService;
@@ -36,6 +35,9 @@ public class TruckerController {
     @Autowired
     private ICompanyRepository companyRepository;
 
+    @Autowired
+    private IMessageRepository messageRepository;
+
     PilhaObj<Trucker> pilhaTrucker = new PilhaObj<>(999);
 
     @Autowired
@@ -43,6 +45,7 @@ public class TruckerController {
 
     @Autowired
     TruckServices truckServices;
+
 
     @GetMapping("/{id}")
     @ApiOperation("Retorna um caminhoneiro buscando por id")
@@ -57,7 +60,7 @@ public class TruckerController {
     @ApiOperation("Retorna um caminhoneiro buscando por cpf")
     public ResponseEntity getCpf(@PathVariable String cpf) {
 
-        Trucker trucker = truckerRepository.findByCpf(cpf);
+        Trucker trucker = truckerRepository.findByCpfAndIsDeletedFalse(cpf);
 
         return trucker != null ? ResponseEntity.status(200).body(trucker) : ResponseEntity.status(404).build();
 
@@ -100,16 +103,22 @@ public class TruckerController {
     @DeleteMapping("/{id}")
     @ApiOperation("Remove um caminhoneiro")
     public ResponseEntity deleteTrucker(@PathVariable Integer id) {
-        if (services.delete(id))
-            return ResponseEntity.ok().build();
 
+        Optional<Trucker> trucker = truckerRepository.findById(id);
+        if (trucker.isPresent()){
+            if (!trucker.get().getIsDeleted()){
+                trucker.get().setIsDeleted(true);
+                services.update(id, trucker.get());
+                return ResponseEntity.ok().build();
+            }
+        }
         return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/score/{id}")
     public ResponseEntity getCount(@PathVariable Integer id) {
         if (companyRepository.existsById(id)) {
-            return ResponseEntity.ok().body(truckerRepository.countByCompanyId(id));
+            return ResponseEntity.ok().body(truckerRepository.countByCompanyIdAndIsDeletedFalse(id));
         } else {
             return ResponseEntity.notFound().build();
         }

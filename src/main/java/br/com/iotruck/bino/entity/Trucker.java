@@ -50,6 +50,8 @@ public class Trucker {
     @ManyToOne
     private Company company;
 
+    private Boolean isDeleted;
+
     public Trucker setValue(Trucker trucker) {
         Trucker newTrucker = new Trucker();
         newTrucker.setId(trucker.getId());

@@ -47,7 +47,7 @@ public class TruckerService implements ITruckerService {
 
     public List<TruckerDto> findAllByCompanyId(Integer id) {
 
-        List<Trucker> truckers = repository.findAllByCompanyId(id);
+        List<Trucker> truckers = repository.findAllByCompanyIdAndIsDeletedFalse(id);
 
 
         return truckers.stream().map(t -> new TruckerDto(t)).collect(Collectors.toList());
@@ -56,7 +56,7 @@ public class TruckerService implements ITruckerService {
 
     public Integer countByCompanyId(Integer id) {
 
-        return repository.countByCompanyId(id);
+        return repository.countByCompanyIdAndIsDeletedFalse(id);
 
     }
 
@@ -69,12 +69,12 @@ public class TruckerService implements ITruckerService {
 
     @Override
     public Trucker findByCpf(String cpf) {
-        Trucker trucker = repository.findByCpf(cpf);
+        Trucker trucker = repository.findByCpfAndIsDeletedFalse(cpf);
         return trucker != null ? trucker : null;
     }
 
     public TruckerDto login(String email, String password) {
-        Trucker trucker = repository.findByEmailAndPassword(email, password);
+        Trucker trucker = repository.findByEmailAndPasswordAndIsDeletedFalse(email, password);
         if (trucker != null)
             return new TruckerDto(trucker);
 
