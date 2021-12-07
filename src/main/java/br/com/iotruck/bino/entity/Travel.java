@@ -27,8 +27,7 @@ public class Travel {
 
     @NotBlank
     private String description;
-
-    @FutureOrPresent
+    
     private LocalDate dateTravel;
 
     @JoinColumn(name = "id_trucker")
