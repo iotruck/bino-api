@@ -37,6 +37,8 @@ public class Truck {
 
     private TruckStatus status = TruckStatus.FREE;
 
+    private Boolean isDeleted = false;
+
     @NotNull
     @JoinColumn(name = "id_company")
     @ManyToOne

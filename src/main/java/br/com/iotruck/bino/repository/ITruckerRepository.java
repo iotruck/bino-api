@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ITruckerRepository extends JpaRepository<Trucker, Integer> {
 
-    List<Trucker> findAllByCompanyIdAndIsDeletedFalse(Integer id);
+    List<Trucker> findAllByCompanyIdAndIsDeletedIsFalse(Integer id);
 
     Integer countByCompanyIdAndIsDeletedFalse(Integer id);
 

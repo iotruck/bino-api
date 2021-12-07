@@ -47,7 +47,7 @@ public class TruckerService implements ITruckerService {
 
     public List<TruckerDto> findAllByCompanyId(Integer id) {
 
-        List<Trucker> truckers = repository.findAllByCompanyIdAndIsDeletedFalse(id);
+        List<Trucker> truckers = repository.findAllByCompanyIdAndIsDeletedIsFalse(id);
 
 
         return truckers.stream().map(t -> new TruckerDto(t)).collect(Collectors.toList());

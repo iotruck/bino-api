@@ -45,7 +45,7 @@ public class TruckServices implements ITruckServices {
 
     @Override
     public List<TruckDto> findAllByCompanyId(Integer id) {
-        List<Truck> trucks = repository.findAllByCompanyId(id);
+        List<Truck> trucks = repository.findAllByCompanyIdAndIsDeletedIsFalse(id);
         return trucks.stream().map(t -> new TruckDto(t)).collect(Collectors.toList());
     }
 
@@ -58,7 +58,7 @@ public class TruckServices implements ITruckServices {
 
     public Integer countByCompanyId(Integer id) {
 
-        return repository.countByCompanyId(id);
+        return repository.countByCompanyIdAndIsDeletedIsFalse(id);
 
     }
 }
