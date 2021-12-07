@@ -50,7 +50,7 @@ public class Trucker {
     @ManyToOne
     private Company company;
 
-    private Boolean isDeleted;
+    private Boolean isDeleted = true;
 
     public Trucker setValue(Trucker trucker) {
         Trucker newTrucker = new Trucker();
