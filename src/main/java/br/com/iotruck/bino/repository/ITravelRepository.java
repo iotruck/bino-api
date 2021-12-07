@@ -12,17 +12,17 @@ import java.util.List;
 
 public interface ITravelRepository extends JpaRepository<Travel, Integer> {
 
-    @Query("select t from Travel t where t.analyst.id = ?1")
+    @Query("select t from Travel t where t.analyst.id = ?1 and t.trucker.isDeleted = false")
     List<TravelDto> findAllByAnalystId(Integer id);
 
-    @Query("select t from Travel t where t.trucker.id = ?1")
+    @Query("select t from Travel t where t.trucker.id = ?1 and t.trucker.isDeleted = false")
     List<TravelDto> findAllByTruckertId(Integer id);
 
     Travel findByAnalystIdAndId(Integer analystId, Integer id);
 
     Travel findByTruckerIdAndId(Integer truckerId, Integer id);
 
-    @Query(value = "select * from travel t where t.id_trucker = :truckerId and t.id_truck= :truckId  and t.date_travel =  convert(date,:dateTravel,23)",nativeQuery = true)
+    @Query(value = "select * from travel t where t.id_trucker = :truckerId and t.id_truck= :truckId and t.date_travel =  convert(date,:dateTravel,23)",nativeQuery = true)
     Travel findTravelByTruckerAndTruckAndDateTravel(Integer truckerId, Integer truckId, String dateTravel);
 
     @Query("select t from Travel t where t.codigo like %?1%")

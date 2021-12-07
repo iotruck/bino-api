@@ -10,12 +10,12 @@ import java.util.List;
 @Repository
 public interface ITruckerRepository extends JpaRepository<Trucker, Integer> {
 
-    List<Trucker> findAllByCompanyId(Integer id);
+    List<Trucker> findAllByCompanyIdAndIsDeletedFalse(Integer id);
 
-    Integer countByCompanyId(Integer id);
+    Integer countByCompanyIdAndIsDeletedFalse(Integer id);
 
-    Trucker findByCpf(String cpf);
+    Trucker findByCpfAndIsDeletedFalse(String cpf);
 
-    Trucker findByEmailAndPassword(String email, String password);
+    Trucker findByEmailAndPasswordAndIsDeletedFalse(String email, String password);
 
 }
