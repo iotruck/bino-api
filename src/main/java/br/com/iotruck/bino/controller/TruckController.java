@@ -65,6 +65,7 @@ public class TruckController {
     public ResponseEntity postTruck(@RequestBody @Valid Truck truck) {
         services.create(truck);
         return ResponseEntity.status(201).build();
+
     }
 
     @PutMapping("/{id}")
