@@ -21,6 +21,8 @@ public class MessageDto {
 
     private String formateDate(LocalDateTime date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        System.out.println(String.format("data normal: %s",date.toString()));
+        System.out.println(String.format("data formatada: %s",date.atZone(ZoneId.of("America/Sao_Paulo")).format(formatter).toString()));
         return date.atZone(ZoneId.of("America/Sao_Paulo")).format(formatter).toString();
     }
 
