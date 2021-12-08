@@ -3,6 +3,7 @@ package br.com.iotruck.bino.dto;
 import br.com.iotruck.bino.entity.Message;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class MessageDto {
@@ -20,7 +21,7 @@ public class MessageDto {
 
     private String formateDate(LocalDateTime date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return date.format(formatter).toString();
+        return date.atZone(ZoneId.of("America/Sao_Paulo")).format(formatter).toString();
     }
 
     public Integer getId() {
